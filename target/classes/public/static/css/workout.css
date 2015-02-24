@@ -1,0 +1,13 @@
+.nav-tabs {
+    margin-bottom: 15px;
+}
+.required-container label:after{
+    color: #c9302c;
+    content: '*';
+    padding-left: 2px;
+}
+
+.control-label {
+    text-align: right;
+}
+
