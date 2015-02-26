@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Version: 1.0-SNAPSHOT
-Built-By: Scott
-Implementation-Vendor-Id: com.bos.workout
-Created-By: IntelliJ IDEA
-Build-Jdk: 1.7.0_71
-Main-Class: ${start-class}
-
