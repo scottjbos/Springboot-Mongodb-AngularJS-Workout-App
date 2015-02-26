@@ -14,24 +14,14 @@ public class Workout {
     @Id
     private Long id;
 
+    private WorkoutCategory workoutCategory;
     private WorkoutType workoutType;
+
     private LocalDate date;
     private LocalTime duration;
     private String description;
 
     private double distance;
-
-    public Workout(Long id, WorkoutType workoutType, LocalDate date, LocalTime duration, String description, double distance) {
-        this.id = id;
-        this.workoutType = workoutType;
-        this.date = date;
-        this.duration = duration;
-        this.description = description;
-        this.distance = distance;
-    }
-
-    public Workout() {
-    }
 
     public Long getId() {
         return id;
@@ -39,6 +29,14 @@ public class Workout {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public WorkoutCategory getWorkoutCategory() {
+        return workoutCategory;
+    }
+
+    public void setWorkoutCategory(WorkoutCategory workoutCategory) {
+        this.workoutCategory = workoutCategory;
     }
 
     public WorkoutType getWorkoutType() {

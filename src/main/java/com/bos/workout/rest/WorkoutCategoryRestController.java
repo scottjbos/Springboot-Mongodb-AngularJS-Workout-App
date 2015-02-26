@@ -1,8 +1,8 @@
 package com.bos.workout.rest;
 
 import com.bos.workout.exception.WorkoutCategoryNotFoundException;
-import com.bos.workout.model.Workout;
-import com.bos.workout.repository.WorkoutRepository;
+import com.bos.workout.model.WorkoutCategory;
+import com.bos.workout.repository.WorkoutCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,37 +16,37 @@ import java.util.List;
  * @author boss
  */
 @RestController()
-@RequestMapping("rest/workout")
-public class WorkoutRestController {
+@RequestMapping("rest/workout-category")
+public class WorkoutCategoryRestController {
 
     @Autowired
-    private WorkoutRepository workoutRepository;
+    private WorkoutCategoryRepository workoutCategoryRepository;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    Workout create(@RequestBody @Valid Workout pWorkout) {
-        pWorkout.setId(this.workoutRepository.count() + 1);
-        return workoutRepository.save(pWorkout);
+    WorkoutCategory create(@RequestBody @Valid WorkoutCategory pWorkoutCategory) {
+        pWorkoutCategory.setId(this.workoutCategoryRepository.count() + 1);
+        return workoutCategoryRepository.save(pWorkoutCategory);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     void delete(@PathVariable("id") Long id) {
-        this.workoutRepository.delete(id);
+        this.workoutCategoryRepository.delete(id);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    List<Workout> findAll() {
-        return this.workoutRepository.findAll();
+    List<WorkoutCategory> findAll() {
+        return workoutCategoryRepository.findAll();
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    Workout findById(@PathVariable("id") Long id) {
-        return this.workoutRepository.findOne(id);
+    WorkoutCategory findById(@PathVariable("id") Long id) {
+        return workoutCategoryRepository.findOne(id);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    Workout update(@RequestBody @Valid Workout pWorkout) {
-        return this.workoutRepository.save(pWorkout);
+    WorkoutCategory update(@RequestBody @Valid WorkoutCategory pWorkoutCategory) {
+        return workoutCategoryRepository.save(pWorkoutCategory);
     }
 
     @ExceptionHandler

@@ -45,13 +45,13 @@ var workoutApp = angular.module('workoutApp', ['ngRoute']);
         }
     ]);
 
-    workoutApp.controller('WorkoutController', ['$scope', 'WorkoutTypeFactory', 'WorkoutFactory',
-        function($scope, WorkoutTypeFactory, WorkoutFactory) {
+    workoutApp.controller('WorkoutController', ['$scope', 'WorkoutCategoryFactory', 'WorkoutFactory',
+        function($scope, WorkoutCategoryFactory, WorkoutFactory) {
             "use strict";
 
-            $scope.workoutTypes = [];
-            WorkoutTypeFactory.retrieveWorkoutTypes().then(function(response) {
-                $scope.workoutTypes = response.data;
+            $scope.workoutCategories = [];
+            WorkoutCategoryFactory.retrieveWorkoutCategories().then(function(response) {
+                $scope.workoutCategories = response.data;
             });
 
             $scope.workouts = [];
@@ -59,11 +59,11 @@ var workoutApp = angular.module('workoutApp', ['ngRoute']);
                 $scope.workouts = response.data;
             });
 
-            $scope.workout = {"date": "", "description": "", "duration": "", "distance": "", "workoutType": {}};
+            $scope.workout = {"date": "", "description": "", "duration": "", "distance": "", "workoutType": {}, "workoutCategory":{}};
             $scope.addWorkout = function(workout) {
                 console.log(workout);
                 /*WorkoutFactory.addWorkout(workout).then(function(response) {
-                    $scope.workout = {"date": "", "description": "", "duration": "", "distance": "", "workoutType": {}};
+                    $scope.workout = {"date": "", "description": "", "duration": "", "distance": "", "workoutType": {}, "workoutCategory":{}};
                 });*/
             };
         }
@@ -82,33 +82,79 @@ var workoutApp = angular.module('workoutApp', ['ngRoute']);
         }
     ]);
 
-    workoutApp.controller('AdminController', ['$scope', '$http', 'WorkoutTypeFactory',
-        function($scope, $http, WorkoutTypeFactory) {
+    workoutApp.controller('AdminController', ['$scope', '$http', '$filter', 'WorkoutCategoryFactory',
+        function($scope, $http, $filter, WorkoutCategoryFactory) {
             "use strict";
-            $scope.workoutTypes = [];
-            WorkoutTypeFactory.retrieveWorkoutTypes().then(function(response) {
-               $scope.workoutTypes = response.data;
+            $scope.workoutCategories = [];
+            WorkoutCategoryFactory.retrieveWorkoutCategories().then(function(response) {
+               $scope.workoutCategories = response.data;
+               angular.forEach($scope.workoutCategories, function(workoutCategory) {
+                   workoutCategory.newWorkoutType = {"description": ""};
+               });
             });
 
-            $scope.workoutType = {"description": ""};
-            $scope.addWorkoutType = function(workoutType) {
-                WorkoutTypeFactory.addWorkoutType(workoutType).then(function(response) {
-                   $scope.workoutTypes.push(response.data);
-                   $scope.workoutType = {"description": ""}; //clear the form
+            $scope.workoutCategory = {"description": ""};
+            $scope.addWorkoutCategory = function(workoutType) {
+                WorkoutCategoryFactory.addWorkoutCategory(workoutType).then(function(response) {
+                   response.data.newWorkoutType = {"description": ""};
+                   $scope.workoutCategories.push(response.data);
+                   $scope.workoutCategory = {"description": ""}; //clear the form
                });
-            }
+            };
+
+            $scope.addWorkoutType = function(workoutCategory) {
+                var workoutType = {"id": workoutCategory.workoutTypes.length + 1};
+                workoutType.description = workoutCategory.newWorkoutType.description;
+                workoutCategory.workoutTypes.push(workoutType);
+
+                var submitWorkoutCategory = angular.copy(workoutCategory);
+                delete submitWorkoutCategory.newWorkoutType;
+                WorkoutCategoryFactory.addWorkoutTypeToCategory(submitWorkoutCategory).then(function(response) {
+                    var workoutCategory = response.data;
+                    workoutCategory.newWorkoutType = {"description": ""};
+                    $scope.workoutCategories[$filter('findIndexById')($scope.workoutCategories, workoutCategory.id)] = workoutCategory;
+                });
+            };
         }
     ]);
 
-    workoutApp.factory('WorkoutTypeFactory', ['$http',
+    workoutApp.factory('WorkoutCategoryFactory', ['$http',
         function($http) {
             return {
-                retrieveWorkoutTypes: function() {
-                    return $http.get("/workout/rest/workout-type");
+                retrieveWorkoutCategories: function() {
+                    return $http.get("/workout/rest/workout-category");
                 },
-                addWorkoutType: function(workoutType) {
-                    return $http.post("/workout/rest/workout-type", workoutType);
+                addWorkoutCategory: function(workoutCategory) {
+                    return $http.post("/workout/rest/workout-category", workoutCategory);
+                },
+                addWorkoutTypeToCategory: function(workoutCategory) {
+                    return $http.put("/workout/rest/workout-category/" + workoutCategory.id, workoutCategory);
                 }
+            };
+        }
+    ]);
+
+    workoutApp.filter('findById', [
+        function() {
+            return function(input, id) {
+                for (var i = 0; i < input.length; i++) {
+                    if(+input[i].id === +id) {
+                        return input[i];
+                    }
+                }
+                return null;
+            };
+        }
+    ]);
+    workoutApp.filter('findIndexById', [
+        function() {
+            return function(input, id) {
+                for (var i = 0; i < input.length; i++) {
+                    if(+input[i].id === +id) {
+                        return i;
+                    }
+                }
+                return null;
             };
         }
     ]);

@@ -11,3 +11,11 @@
     text-align: right;
 }
 
+.glyphicon-plus.green {
+    color: green;
+}
+
+.row.workout-category {
+    margin-bottom: 15px;
+}
+

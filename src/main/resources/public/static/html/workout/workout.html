@@ -2,7 +2,11 @@
     <div class="row">
         <div class="col-lg-6 col-md-12">
             <div class="form-horizontal">
-                <div data-select-field data-input-label="Workout Type" data-ng-model="workout.workoutType" data-options="workoutTypes" data-option-label="description" data-null-option-label="--Workout Type--" data-required="true"></div>
+                <div data-select-field data-input-label="Workout Category" data-ng-model="workout.workoutCategory"
+                     data-options="workoutCategories" data-option-label="description" data-null-option-label="--Workout Category--" data-required="true"></div>
+
+                <div data-select-field data-input-label="Workout Type" data-ng-model="workout.workoutType"
+                     data-options="workout.workoutCategory.workoutTypes" data-option-label="description" data-null-option-label="--Workout Type--" data-required="true"></div>
 
                 <div data-input-field data-input-type="date" data-input-mask="date" data-ng-model="workout.date" data-input-label="Date"></div>
 

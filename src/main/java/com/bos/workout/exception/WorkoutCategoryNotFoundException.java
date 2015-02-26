@@ -5,9 +5,9 @@ package com.bos.workout.exception;
  *
  * @author boss
  */
-public class WorkoutTypeNotFoundException extends RuntimeException {
+public class WorkoutCategoryNotFoundException extends RuntimeException {
 
-    public WorkoutTypeNotFoundException(String id) {
+    public WorkoutCategoryNotFoundException(String id) {
         super(String.format("No workout type entry found with id: <%s>", id));
     }
 }

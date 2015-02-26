@@ -1,21 +1,21 @@
 package com.bos.workout.model;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Model representing a work out type of a category.  Such as Sprinting or Long Distance.
+ * Model representing a work out category, such as Running or Swimming.
  *
  * @author boss
  */
-public class WorkoutType {
+public class WorkoutCategory {
 
     @Id
     private Long id;
     private String description;
+    private List<WorkoutType> workoutTypes = new ArrayList<WorkoutType>();
 
     public Long getId() {
         return id;
@@ -31,5 +31,13 @@ public class WorkoutType {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<WorkoutType> getWorkoutTypes() {
+        return workoutTypes;
+    }
+
+    public void setWorkoutTypes(List<WorkoutType> workoutTypes) {
+        this.workoutTypes = workoutTypes;
     }
 }

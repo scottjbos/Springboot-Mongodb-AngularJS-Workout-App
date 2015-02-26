@@ -81,7 +81,7 @@
             template: '<div class="form-group" data-ng-if="ngModel !== undefined" data-ng-class="{\'required-container\' : $parent.required, \'has-error has-feedback\' : $parent.messages.length >= 1}">' +
             '	<label class="control-label" data-ng-class="$parent.labelClass">{{$parent.inputLabel}}</label>' +
             '	<div data-ng-class="$parent.inputContainerClass">' +
-            '		<select class="form-control" id="$parent.id" data-ng-model="$parent.ngModel" data-ng-options="option[$parent.optionLabel] for option in $parent.options | orderBy:$parent.optionLabel" data-ng-reguired="$parent.required" data-ng-disabled="$parent.disabled">' +
+            '		<select class="form-control" id="$parent.id" data-ng-model="$parent.ngModel" data-ng-options="option[$parent.optionLabel] for option in $parent.options | orderBy:$parent.optionLabel track by option[$parent.optionId]" data-ng-reguired="$parent.required" data-ng-disabled="$parent.disabled">' +
             '			<option value="" data-ng-if="$parent.nullOptionLabel" data-ng-cloak>{{$parent.$parent.nullOptionLabel}}</option>' +
             '		</select>' +
             '		<span class="glyphicon form-control-feedback inset-control-feedback" data-ng-class="{\'glyphicon-remove\' : $parent.messages.length >= 1}" aria-hidden="true"></span>' +
@@ -93,6 +93,7 @@
             scope: {
                 ngModel: "=", //Required - Two Way
                 options: "=", //Object
+                optionId: "@",
                 optionLabel: "@",
                 nullOptionLabel: "@", //Optional
                 inputLabel: "@", //Optional
@@ -107,6 +108,7 @@
             link: function ($scope) {
                 $scope.id = $scope.id || "input-" + Math.floor((Math.random() * 300000) + 1);
                 $scope.labelClass = $scope.labelClass || 'col-sm-4'; //4 col default
+                $scope.optionId = $scope.optionId || 'id'; //tracking the collection by the id property
                 $scope.inputContainerClass = $scope.inputContainerClass || 'col-sm-8'; //8 col default
             }
         }
