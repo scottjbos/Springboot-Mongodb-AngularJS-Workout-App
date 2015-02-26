@@ -78,14 +78,14 @@
     //example: <div data-select-field data-input-label="Resolution Reason" data-ng-model="caseInformation.resolutionReason" data-options="data.resolutionReasons" data-null-option-label="-- Resolution Reason --"></div>
     .directive("selectField", function () {
         return {
-            template: '<div class="form-group" data-ng-if="ngModel !== undefined" data-ng-class="{\'required-container\' : $parent.required, \'has-error has-feedback\' : $parent.messages.length >= 1}">' +
-            '	<label class="control-label" data-ng-class="$parent.labelClass">{{$parent.inputLabel}}</label>' +
-            '	<div data-ng-class="$parent.inputContainerClass">' +
-            '		<select class="form-control" id="$parent.id" data-ng-model="$parent.ngModel" data-ng-options="option[$parent.optionLabel] for option in $parent.options | orderBy:$parent.optionLabel track by option[$parent.optionId]" data-ng-reguired="$parent.required" data-ng-disabled="$parent.disabled">' +
-            '			<option value="" data-ng-if="$parent.nullOptionLabel" data-ng-cloak>{{$parent.$parent.nullOptionLabel}}</option>' +
+            template: '<div class="form-group" data-ng-class="{\'required-container\' : required, \'has-error has-feedback\' : messages.length >= 1}">' +
+            '	<label class="control-label" data-ng-class="labelClass">{{inputLabel}}</label>' +
+            '	<div data-ng-class="inputContainerClass">' +
+            '       <select class="form-control" id="id" data-ng-model="ngModel" data-ng-init="ngModel = ngModel || options[0]" data-ng-options="option[optionLabel] for option in options | orderBy:optionLabel track by option[optionId]" data-ng-reguired="required" data-ng-disabled="disabled">' +
+            '			<option value="" data-ng-cloak>{{nullOptionLabel}}</option>' +
             '		</select>' +
-            '		<span class="glyphicon form-control-feedback inset-control-feedback" data-ng-class="{\'glyphicon-remove\' : $parent.messages.length >= 1}" aria-hidden="true"></span>' +
-            '		<div ng-show="$parent.messages.length >= 1" class="alert alert-danger margin-top remove-margin-bottom"><p data-ng-repeat="message in $parent.messages">{{message}}</p></div>' +
+            '		<span class="glyphicon form-control-feedback inset-control-feedback" data-ng-class="{\'glyphicon-remove\' : messages.length >= 1}" aria-hidden="true"></span>' +
+            '		<div ng-show="messages.length >= 1" class="alert alert-danger margin-top remove-margin-bottom"><p data-ng-repeat="message in messages">{{message}}</p></div>' +
             '	</div>' +
             '</div>',
             restrict: "A",

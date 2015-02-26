@@ -59,11 +59,11 @@ var workoutApp = angular.module('workoutApp', ['ngRoute']);
                 $scope.workouts = response.data;
             });
 
-            $scope.workout = {"date": "", "description": "", "duration": "", "distance": "", "workoutType": {}, "workoutCategory":{}};
+            $scope.workout = {"date": "", "description": "", "duration": "", "distance": "", "workoutType": "", "workoutCategory":""};
             $scope.addWorkout = function(workout) {
                 console.log(workout);
                 /*WorkoutFactory.addWorkout(workout).then(function(response) {
-                    $scope.workout = {"date": "", "description": "", "duration": "", "distance": "", "workoutType": {}, "workoutCategory":{}};
+                 $scope.workout = {"date": "", "description": "", "duration": "", "distance": "", "workoutType": "", "workoutCategory":""};
                 });*/
             };
         }
