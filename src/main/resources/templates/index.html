@@ -18,7 +18,7 @@
 
     <div class="container" data-ng-controller="TabsController">
         <tabset>
-            <tab ng-repeat="tab in tabs" heading="{{tab.label}}" select="nagivateTab(tab.link)">
+            <tab ng-repeat="tab in tabs" heading="{{tab.label}}" select="navigateToTab(tab.link)">
                <div data-ng-view=""></div>
             </tab>
         </tabset>
@@ -26,11 +26,11 @@
 
     <div th:replace="fragments/_footer"></div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular-route.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.js"></script>
     <script src="/workout/static/js/app.js"></script>
     <script src="/workout/static/js/directives.js"></script>
 </body>

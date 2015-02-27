@@ -25,12 +25,12 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
 
             //Angular will use the HTML5 browser history when available, otherwise revert back to the
             //hashbang method maintaining browser history for non HTML 5 browser
-            //$locationProvider.html5Mode(true);
+            $locationProvider.html5Mode(true);
         }
     ]);
 
-    workoutApp.controller('TabsController', ['$scope',
-        function($scope) {
+    workoutApp.controller('TabsController', ['$scope', '$location',
+        function($scope, $location) {
             "use strict";
 
             $scope.tabs = [
@@ -38,10 +38,9 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
                 {link: 'admin', label: 'Add a workout type'}
             ];
 
-            $scope.selectedTab = $scope.tabs[0];
-            $scope.setSelectedTab = function (tab) {
-                $scope.selectedTab = tab;
-            }
+            $scope.navigateToTab = function(link) {
+                $location.path(link);
+            };
         }
     ]);
 

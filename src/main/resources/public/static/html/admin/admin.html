@@ -16,17 +16,20 @@
                     <li class="list-group-item list-group-item-info" data-ng-click="workCategory.collapseTypes = !workCategory.collapseTypes">
                         <span class="caret"></span> {{workoutCategory.description}} <span class="badge">{{workoutCategory.workoutTypes.length}}</span>
                     </li>
-                    <li class="list-group-item" collapse="workCategory.collapseTypes" data-ng-repeat="workoutType in workoutCategory.workoutTypes | orderBy: 'description'" data-ng-cloak>{{workoutType.description}}</li>
-                    <li class="list-group-item" collapse="workCategory.collapseTypes">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <input class="form-control" type="text" data-ng-model="workoutCategory.newWorkoutType.description" />
+                    <div collapse="workCategory.collapseTypes">
+                        <li class="list-group-item"
+                            data-ng-repeat="workoutType in workoutCategory.workoutTypes | orderBy: 'description'" data-ng-cloak>{{workoutType.description}}</li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input class="form-control" type="text" data-ng-model="workoutCategory.newWorkoutType.description" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <button class="btn btn-default" data-ng-click="addWorkoutType(workoutCategory)"><span class="glyphicon glyphicon-plus green"></span> {{workoutCategory.description}} Type</button>
+                                </div>
                             </div>
-                            <div class="col-sm-4">
-                                <button class="btn btn-default" data-ng-click="addWorkoutType(workoutCategory)"><span class="glyphicon glyphicon-plus green"></span> {{workoutCategory.description}} Type</button>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                    </div>
                 </ul>
             </div>
         </div>
