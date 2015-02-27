@@ -11,5 +11,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * @author boss
  */
 @RepositoryRestResource
-public interface WorkoutCategoryRepository extends MongoRepository<WorkoutCategory, Long> {
+public interface WorkoutCategoryRepository extends MongoRepository<WorkoutCategory, String> {
 }

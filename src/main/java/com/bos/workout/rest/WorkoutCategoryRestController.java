@@ -25,12 +25,11 @@ public class WorkoutCategoryRestController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     WorkoutCategory create(@RequestBody @Valid WorkoutCategory pWorkoutCategory) {
-        pWorkoutCategory.setId(this.workoutCategoryRepository.count() + 1);
         return workoutCategoryRepository.save(pWorkoutCategory);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    void delete(@PathVariable("id") Long id) {
+    void delete(@PathVariable("id") String id) {
         this.workoutCategoryRepository.delete(id);
     }
 
@@ -40,7 +39,7 @@ public class WorkoutCategoryRestController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    WorkoutCategory findById(@PathVariable("id") Long id) {
+    WorkoutCategory findById(@PathVariable("id") String id) {
         return workoutCategoryRepository.findOne(id);
     }
 
@@ -51,6 +50,6 @@ public class WorkoutCategoryRestController {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void handleTodoNotFound(WorkoutCategoryNotFoundException ex) {
+    public void handleWorkoutCategoryNotFound(WorkoutCategoryNotFoundException ex) {
     }
 }
