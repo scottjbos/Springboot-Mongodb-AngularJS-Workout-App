@@ -1,4 +1,4 @@
-var workoutApp = angular.module('workoutApp', ['ngRoute']);
+var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
 
 (function() {
     workoutApp.config(['$routeProvider', '$locationProvider',
@@ -25,7 +25,7 @@ var workoutApp = angular.module('workoutApp', ['ngRoute']);
 
             //Angular will use the HTML5 browser history when available, otherwise revert back to the
             //hashbang method maintaining browser history for non HTML 5 browser
-            $locationProvider.html5Mode(true);
+            //$locationProvider.html5Mode(true);
         }
     ]);
 
@@ -90,6 +90,7 @@ var workoutApp = angular.module('workoutApp', ['ngRoute']);
                $scope.workoutCategories = response.data;
                angular.forEach($scope.workoutCategories, function(workoutCategory) {
                    workoutCategory.newWorkoutType = {"description": ""};
+                   workoutCategory.collapseTypes = true;
                });
             });
 
@@ -97,6 +98,7 @@ var workoutApp = angular.module('workoutApp', ['ngRoute']);
             $scope.addWorkoutCategory = function(workoutType) {
                 WorkoutCategoryFactory.addWorkoutCategory(workoutType).then(function(response) {
                    response.data.newWorkoutType = {"description": ""};
+                   response.data.collapseTypes = true;
                    $scope.workoutCategories.push(response.data);
                    $scope.workoutCategory = {"description": ""}; //clear the form
                });
@@ -109,6 +111,7 @@ var workoutApp = angular.module('workoutApp', ['ngRoute']);
 
                 var submitWorkoutCategory = angular.copy(workoutCategory);
                 delete submitWorkoutCategory.newWorkoutType;
+                delete submitWorkoutCategory.collapseTypes;
                 WorkoutCategoryFactory.addWorkoutTypeToCategory(submitWorkoutCategory).then(function(response) {
                     var workoutCategory = response.data;
                     workoutCategory.newWorkoutType = {"description": ""};
