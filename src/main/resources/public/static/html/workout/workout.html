@@ -1,26 +1,34 @@
-<div class="form-section">
-    <div class="row">
-        <div class="col-lg-6 col-md-12">
-            <div class="form-horizontal">
-                <div data-select-field data-input-label="Workout Category" data-ng-model="workout.workoutCategory"
-                     data-options="workoutCategories" data-option-label="description"
-                     data-null-option-label="-- Workout Category --" data-required="true"></div>
+<div class="modal-header">
+    <h3 class="modal-title">Add a Workout</h3>
+    <button class="btn btn-default pull-right close" data-ng-click="closeFilter();" aria-hidden="true"> <i class="fa fa-times fa-sm"></i></button>
+</div>
+<div class="modal-body">
+    <div class="form-section">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-horizontal">
+                    <div data-select-field data-input-label="Workout Category" data-ng-model="workout.workoutCategory"
+                         data-options="workoutCategories" data-option-label="description"
+                         data-null-option-label="-- Workout Category --" data-required="true"></div>
 
-                <div data-select-field data-input-label="Workout Type" data-ng-model="workout.workoutType"
-                     data-options="workout.workoutCategory.workoutTypes" data-option-label="description"
-                     data-null-option-label="-- Workout Type --" data-required="true"></div>
+                    <div data-select-field data-input-label="Workout Type" data-ng-model="workout.workoutType"
+                         data-options="workout.workoutCategory.workoutTypes" data-option-label="description"
+                         data-null-option-label="-- Workout Type --" data-required="true"></div>
 
-                <div data-input-field data-input-type="date" data-input-mask="date" data-ng-model="workout.date" data-input-label="Date"></div>
+                    <div data-input-field data-input-type="date" data-input-mask="date" data-ng-model="workout.date" data-input-label="Date"></div>
 
-                <div data-input-field data-input-type="time" data-ng-model="workout.duration" data-input-label="Duration"></div>
+                    <div data-input-field data-input-type="time" data-ng-model="workout.duration" data-input-label="Duration"></div>
 
-                <div data-textarea-field data-input-label="Description" data-ng-model="workout.description"></div>
-                <div class="row">
-                    <div class="text-center margin-bottom">
-                        <button class="btn btn-default" data-ng-click="addWorkout(workout);"><span class="glyphicon glyphicon-plus pointer"></span>  Workout</button>
-                    </div>
+                    <div data-textarea-field data-input-label="Description" data-ng-model="workout.description"></div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="text-center margin-bottom">
+            <button class="btn btn-default" data-ng-click="addWorkout(workout);"><span class="glyphicon glyphicon-plus pointer"></span>  Workout</button>
         </div>
     </div>
 </div>

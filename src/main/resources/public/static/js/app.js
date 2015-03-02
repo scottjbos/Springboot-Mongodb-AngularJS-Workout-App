@@ -23,7 +23,7 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
                         return WorkoutCategoryFactory.retrieveWorkoutCategories();
                     }]
                 }
-            }).when('/add-workout', {
+            /*}).when('/add-workout', {
                 templateUrl: '/workout/static/html/workout/workout.html',
                 controller: 'WorkoutController',
                 reloadOnSearch: false, //don't reload with query params are passed
@@ -31,7 +31,7 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
                     workoutCategories:['WorkoutCategoryFactory', function(WorkoutCategoryFactory) {
                         return WorkoutCategoryFactory.retrieveWorkoutCategories();
                     }]
-                }
+                }*/
             }).otherwise({
                 redirectTo: '/'
             });
@@ -42,13 +42,14 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
         }
     ]);
 
-    workoutApp.controller('TabsController', ['$scope', '$location', '$rootScope',
-        function($scope, $location, $rootScope) {
+    workoutApp.controller('TabsController', ['$scope', '$location',
+        function($scope, $location) {
             "use strict";
 
             $scope.tabs = [
                 {link: '', label: 'Workout Categories', active: true},
-                {link: 'add-workout', label: 'Add a workout type', active: false}
+                {link: 'workout-history', label: 'Workout History', active: false},
+                {link: 'workout-progress', label: 'Workout Progress', active: false}
             ];
 
             $scope.setTabActive = function(link) {
@@ -63,41 +64,8 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
         }
     ]);
 
-    workoutApp.controller('WorkoutController', ['$scope', '$filter', '$routeParams', '$location', 'WorkoutCategoryFactory', 'WorkoutFactory', 'workoutCategories',
-        function($scope, $filter, $routeParams, $location, WorkoutCategoryFactory, WorkoutFactory, workoutCategories) {
-            "use strict";
-            $scope.workout = {"date": new Date(), "description": "", "duration": "", "distance": ""};
-            $scope.workoutCategories = workoutCategories;
-            $scope.workout.workoutCategory = angular.isNotUndefinedOrNullOrEmpty($location.$$search.workoutCategory)
-                ? $filter('findByDescription')($scope.workoutCategories, $location.$$search.workoutCategory) : {};
-
-            $scope.workout.workoutType = angular.isNotUndefinedOrNullOrEmpty($scope.workout.workoutCategory.workoutTypes) && angular.isNotUndefinedOrNullOrEmpty($location.$$search.workoutType)
-                ? $filter('findByDescription')($scope.workout.workoutCategory.workoutTypes, $location.$$search.workoutType) : {};
-
-            $scope.addWorkout = function(workout) {
-                console.log(workout);
-                /*WorkoutFactory.addWorkout(workout).then(function(response) {
-                 $scope.workout = {"date": "", "description": "", "duration": "", "distance": "", "workoutType": "", "workoutCategory":""};
-                });*/
-            };
-        }
-    ]);
-
-    workoutApp.factory('WorkoutFactory', ['$http',
-        function($http) {
-            return {
-                retrieveWorkouts: function() {
-                    return $http.get("/workout/rest/workout");
-                },
-                addWorkout: function(workout) {
-                    return $http.post("/workout/rest/workout", workout);
-                }
-            };
-        }
-    ]);
-
-    workoutApp.controller('WorkoutCategoryController', ['$scope', '$http', '$filter', '$location', 'WorkoutCategoryFactory', 'workoutCategories',
-        function($scope, $http, $filter, $location, WorkoutCategoryFactory, workoutCategories) {
+    workoutApp.controller('WorkoutCategoryController', ['$scope', '$http', '$filter', '$location', '$modal', 'WorkoutCategoryFactory', 'workoutCategories',
+        function($scope, $http, $filter, $location, $modal, WorkoutCategoryFactory, workoutCategories) {
             "use strict";
             $scope.workoutCategories = workoutCategories;
             angular.forEach($scope.workoutCategories, function(workoutCategory) {
@@ -148,9 +116,19 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
                 });
             };
 
-            $scope.navigateToAddWork = function(workoutCategory, workoutType) {
-                $scope.$parent.setTabActive("add-workout");
-                $location.path("add-workout").search({workoutCategory: workoutCategory.description, workoutType: workoutType.description});
+            //Add work out modal
+            $scope.openAddWorkoutModal = function (workoutCategory, workoutType) {
+                $modal.open({
+                    templateUrl: '/workout/static/html/workout/workout.html',
+                    controller: 'WorkoutController',
+                    resolve: {
+                        workoutCategories:['WorkoutCategoryFactory', function(WorkoutCategoryFactory) {
+                            return WorkoutCategoryFactory.retrieveWorkoutCategories();
+                        }],
+                        workoutCategory:[function(){ return workoutCategory.description }],
+                        workoutType:[function(){ return workoutType.description }]
+                    }
+                });
             };
         }
     ]);
@@ -187,6 +165,40 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
                 },
                 deleteWorkoutCategory: function(workoutCategory) {
                     return $http.delete("/workout/rest/workout-category/" + workoutCategory.id);
+                }
+            };
+        }
+    ]);
+
+    workoutApp.controller('WorkoutController', ['$scope', '$filter', '$routeParams', '$location', '$modalInstance', 'WorkoutCategoryFactory', 'WorkoutFactory', 'workoutCategories', 'workoutCategory', 'workoutType',
+        function($scope, $filter, $routeParams, $location, $modalInstance, WorkoutCategoryFactory, WorkoutFactory, workoutCategories, workoutCategory, workoutType) {
+            "use strict";
+            $scope.workout = {"date": new Date(), "description": "", "duration": "", "distance": ""};
+            $scope.workoutCategories = workoutCategories;
+            $scope.workout.workoutCategory = $filter('findByDescription')($scope.workoutCategories, workoutCategory);
+            $scope.workout.workoutType = $filter('findByDescription')($scope.workout.workoutCategory.workoutTypes, workoutType);
+
+            $scope.addWorkout = function(workout) {
+                console.log(workout);
+                /*WorkoutFactory.addWorkout(workout).then(function(response) {
+                 $scope.workout = {"date": "", "description": "", "duration": "", "distance": "", "workoutType": "", "workoutCategory":""};
+                 });*/
+            };
+
+            $scope.closeFilter = function() {
+                $modalInstance.dismiss('cancel');
+            };
+        }
+    ]);
+
+    workoutApp.factory('WorkoutFactory', ['$http',
+        function($http) {
+            return {
+                retrieveWorkouts: function() {
+                    return $http.get("/workout/rest/workout");
+                },
+                addWorkout: function(workout) {
+                    return $http.post("/workout/rest/workout", workout);
                 }
             };
         }
