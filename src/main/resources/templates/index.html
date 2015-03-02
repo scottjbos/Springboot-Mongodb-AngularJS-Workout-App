@@ -18,7 +18,7 @@
 
     <div class="container" data-ng-controller="TabsController">
         <tabset>
-            <tab ng-repeat="tab in tabs" heading="{{tab.label}}" select="navigateToTab(tab.link)">
+            <tab ng-repeat="tab in tabs" heading="{{tab.label}}" select="navigateToTab(tab.link)" active="tab.active">
                <div data-ng-view=""></div>
             </tab>
         </tabset>

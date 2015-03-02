@@ -11,8 +11,16 @@
     text-align: right;
 }
 
-.glyphicon-plus.green {
-    color: green;
+.glyphicon-plus {
+    color: #27ae60;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.list-group-item.workout:hover {
+    background-color: #50A6EC;
 }
 
 .divider {
