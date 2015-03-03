@@ -1,0 +1,27 @@
+<h1>Good job!  <small><span class="glyphicon glyphicon-thumbs-up"></span></small></h1>
+<div class="row">
+    <div class="btn-group pull-right" role="group" aria-label="...">
+        <button type="button" class="btn btn-default" data-ng-repeat="viewByOption in viewByOptions"
+            data-ng-class="{'btn-primary active': viewByOption.selected, 'btn-info': !viewByOption.selected}"
+            data-ng-click="setViewBy(viewByOption)" data-ng-cloak>{{viewByOption.display}}</button>
+    </div>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+    </tr>
+    </tbody>
+</table>
+<div data-ng-repeat="workout in workouts | orderBy:'date'">{{workout.date | date:'MM-dd-yyyy'}} - {{workout.workoutCategory.description}} - {{workout.workoutType.description}}</div>

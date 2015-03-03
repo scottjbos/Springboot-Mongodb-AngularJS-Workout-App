@@ -4,7 +4,10 @@
             '	<label for="{{$parent.id}}" class="control-label" data-ng-class="$parent.labelClass">{{$parent.inputLabel}}</label>' +
             '	<div data-ng-class="$parent.inputContainerClass" ng-switch on="$parent.inputMask">' +
             '		<input ng-switch-when="date" maxlength="10" class="date-mask form-control" placeholder="MM-DD-YYYY" id="{{$parent.$parent.id}}" data-ng-model="$parent.$parent.ngModel" type="{{$parent.$parent.inputType}}" data-ng-reguired="$parent.$parent.required" data-ng-disabled="$parent.$parent.disabled" data-ng-enter="$parent.$parent.enter();" data-ng-change="$parent.$parent.ngChange()" data-ng-model-options="{\'updateOn\': $parent.$parent.ngModelOptionOnBlur, \'debounce\': $parent.$parent.ngModelOptionDebounce}">' +
-            '		<input ng-switch-default class="form-control" id="{{$parent.$parent.id}}" data-ng-class="{\'loading\':$parent.$parent.isLoading}" data-ng-model="$parent.$parent.ngModel" type="{{$parent.$parent.inputType}}" data-ng-reguired="$parent.$parent.required" data-ng-disabled="$parent.$parent.disabled" maxlength="{{$parent.$parent.inputMaxlength}}" data-ng-enter="$parent.$parent.enter();"  data-ng-change="$parent.$parent.ngChange()" data-ng-model-options="{\'updateOn\': $parent.$parent.ngModelOptionOnBlur, \'debounce\': $parent.$parent.ngModelOptionDebounce}" data-focus-me="$parent.$parent.focusWhen" >' +
+            '		<input ng-switch-default class="form-control" id="{{$parent.$parent.id}}" data-ng-class="{\'loading\':$parent.$parent.isLoading}" ' +
+            '           data-ng-model="$parent.$parent.ngModel" type="{{$parent.$parent.inputType}}" data-ng-reguired="$parent.$parent.required" ' +
+            '           data-ng-disabled="$parent.$parent.disabled" maxlength="{{$parent.$parent.inputMaxlength}}" max="{{$parent.$parent.inputMax}}" ' +
+            '           min="{{$parent.$parent.inputMin}}" data-ng-enter="$parent.$parent.enter();"  data-ng-change="$parent.$parent.ngChange()" data-ng-model-options="{\'updateOn\': $parent.$parent.ngModelOptionOnBlur, \'debounce\': $parent.$parent.ngModelOptionDebounce}" data-focus-me="$parent.$parent.focusWhen" >' +
             '		<span class="glyphicon form-control-feedback" data-ng-class="{\'glyphicon-remove\' : $parent.messages.length >= 1}" aria-hidden="true"></span>' +
             '		<div ng-show="$parent.messages.length >= 1" class="alert alert-danger margin-top remove-margin-bottom"><p data-ng-repeat="message in $parent.messages">{{message}}</p></div>' +
             '	</div>' +
@@ -17,6 +20,8 @@
                 id: "=?", //Optional: 'string'
                 inputType: "@?", //Optional: 'string'
                 inputMaxlength: "=?", //Optional: 'string'
+                inputMin: "=?", //Optional: 'string'
+                inputMax: "=?", //Optional: 'string'
                 labelClass: "=?", //Optional: 'string'
                 inputContainerClass: "=?", //Optional: 'string'
                 required: "=?", //Optional Bool

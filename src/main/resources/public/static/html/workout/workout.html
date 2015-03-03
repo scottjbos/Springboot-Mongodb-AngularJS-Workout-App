@@ -1,6 +1,6 @@
 <div class="modal-header">
+    <button class="btn btn-default btn-sm pull-right close" data-ng-click="closeWorkoutModal();" aria-hidden="true"> <span class="glyphicon glyphicon-remove-circle"></span></button>
     <h3 class="modal-title">Add a Workout</h3>
-    <button class="btn btn-default pull-right close" data-ng-click="closeFilter();" aria-hidden="true"> <i class="fa fa-times fa-sm"></i></button>
 </div>
 <div class="modal-body">
     <div class="form-section">
@@ -17,7 +17,8 @@
 
                     <div data-input-field data-input-type="date" data-input-mask="date" data-ng-model="workout.date" data-input-label="Date"></div>
 
-                    <div data-input-field data-input-type="time" data-ng-model="workout.duration" data-input-label="Duration"></div>
+                    <div data-input-field data-input-type="number" data-ng-model="workout.duration" data-input-label="Duration" data-input-min="0"></div>
+                    <div data-input-field data-ng-model="workout.distance" data-input-label="Distance"></div>
 
                     <div data-textarea-field data-input-label="Description" data-ng-model="workout.description"></div>
                 </div>
@@ -27,8 +28,9 @@
 </div>
 <div class="modal-footer">
     <div class="row">
-        <div class="text-center margin-bottom">
-            <button class="btn btn-default" data-ng-click="addWorkout(workout);"><span class="glyphicon glyphicon-plus pointer"></span>  Workout</button>
+        <div class="col-sm-offset-7 col-sm-4 margin-bottom">
+            <button class="btn btn-warning" data-ng-click="closeWorkoutModal()">Cancel</button>
+            <button class="btn btn-primary" data-ng-click="addWorkout(workout);">Add</button>
         </div>
     </div>
 </div>

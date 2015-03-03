@@ -8,5 +8,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  *
  * @author boss
  */
-public interface WorkoutRepository extends MongoRepository<Workout, Long> {
+public interface WorkoutRepository extends MongoRepository<Workout, String> {
 }

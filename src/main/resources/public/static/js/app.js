@@ -23,15 +23,14 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
                         return WorkoutCategoryFactory.retrieveWorkoutCategories();
                     }]
                 }
-            /*}).when('/add-workout', {
-                templateUrl: '/workout/static/html/workout/workout.html',
-                controller: 'WorkoutController',
-                reloadOnSearch: false, //don't reload with query params are passed
+            }).when('/workout-history', {
+                templateUrl: '/workout/static/html/workout/workoutHistory.html',
+                controller: 'WorkoutHistoryController',
                 resolve: {
-                    workoutCategories:['WorkoutCategoryFactory', function(WorkoutCategoryFactory) {
-                        return WorkoutCategoryFactory.retrieveWorkoutCategories();
+                    workouts:['WorkoutFactory', function(WorkoutFactory) {
+                        return WorkoutFactory.retrieveWorkouts();
                     }]
-                }*/
+                }
             }).otherwise({
                 redirectTo: '/'
             });
@@ -147,16 +146,6 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
                         });
                     return deferred.promise;
                 },
-                retrieveWorkoutCategory: function(id) {
-                    $http.get("/workout/rest/workout-category/" + id)
-                        .success(function(data) {
-                            deferred.resolve(data);
-                        }).error(function(msg, code) {
-                            deferred.reject(msg);
-                            $log.error(msg, code);
-                        });
-                    return deferred.promise;
-                },
                 addWorkoutCategory: function(workoutCategory) {
                     return $http.post("/workout/rest/workout-category", workoutCategory);
                 },
@@ -179,23 +168,53 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
             $scope.workout.workoutType = $filter('findByDescription')($scope.workout.workoutCategory.workoutTypes, workoutType);
 
             $scope.addWorkout = function(workout) {
-                console.log(workout);
-                /*WorkoutFactory.addWorkout(workout).then(function(response) {
-                 $scope.workout = {"date": "", "description": "", "duration": "", "distance": "", "workoutType": "", "workoutCategory":""};
-                 });*/
+                var submitWorkout = angular.copy(workout);
+                submitWorkout.workoutCategory = {id: workout.workoutCategory.id, description: workout.workoutCategory.description};
+                submitWorkout.workoutType = {id: workout.workoutType.id, description: workout.workoutType.description};
+                WorkoutFactory.addWorkout(submitWorkout)
+                    .success(function(response) {
+                        $modalInstance.close(response);
+                        $scope.workout = {"date": new Date(), "description": "", "duration": "", "distance": ""};
+                     })
+                    .fail(function(response) {
+                        $scope.errors = response.data;
+                    });
+
             };
 
-            $scope.closeFilter = function() {
+            $scope.closeWorkoutModal = function() {
                 $modalInstance.dismiss('cancel');
             };
         }
     ]);
 
-    workoutApp.factory('WorkoutFactory', ['$http',
-        function($http) {
+    workoutApp.controller('WorkoutHistoryController', ['$scope', 'WorkoutFactory', 'workouts',
+        function($scope, WorkoutFactory, workouts) {
+            "use strict";
+            $scope.workouts = workouts;
+            $scope.viewByOptions = [{'display': 'Date', 'selected': true}, {'display': 'Workout Type', 'selected': false}];
+
+            $scope.setViewBy = function(pViewByOption) {
+                angular.forEach($scope.viewByOptions, function(viewByOption) {
+                    viewByOption.selected = angular.equals(viewByOption, pViewByOption)
+                })
+            };
+        }
+    ]);
+
+    workoutApp.factory('WorkoutFactory', ['$http', '$q', '$log',
+        function($http, $q, $log) {
+            var deferred = $q.defer();
             return {
                 retrieveWorkouts: function() {
-                    return $http.get("/workout/rest/workout");
+                    $http.get("/workout/rest/workout")
+                        .success(function(data) {
+                            deferred.resolve(data);
+                        }).error(function(msg, code) {
+                            deferred.reject(msg);
+                            $log.error(msg, code);
+                        });
+                    return deferred.promise;
                 },
                 addWorkout: function(workout) {
                     return $http.post("/workout/rest/workout", workout);

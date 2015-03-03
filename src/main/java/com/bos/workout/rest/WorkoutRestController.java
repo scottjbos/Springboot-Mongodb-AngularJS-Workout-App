@@ -11,8 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * TODO JavaDoc needs to written.
- *
+ * Rest controller for {@link Workout}s.
  * @author boss
  */
 @RestController()
@@ -25,12 +24,11 @@ public class WorkoutRestController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     Workout create(@RequestBody @Valid Workout pWorkout) {
-        pWorkout.setId(this.workoutRepository.count() + 1);
         return workoutRepository.save(pWorkout);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    void delete(@PathVariable("id") Long id) {
+    void delete(@PathVariable("id") String id) {
         this.workoutRepository.delete(id);
     }
 
@@ -40,7 +38,7 @@ public class WorkoutRestController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    Workout findById(@PathVariable("id") Long id) {
+    Workout findById(@PathVariable("id") String id) {
         return this.workoutRepository.findOne(id);
     }
 

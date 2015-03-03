@@ -4,6 +4,8 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.springframework.data.annotation.Id;
 
+import java.util.Date;
+
 /**
  * Model representing a work out.
  *
@@ -12,22 +14,21 @@ import org.springframework.data.annotation.Id;
 public class Workout {
 
     @Id
-    private Long id;
+    private String id;
 
     private WorkoutCategory workoutCategory;
     private WorkoutType workoutType;
 
-    private LocalDate date;
-    private LocalTime duration;
+    private Date date;
+    private String duration;
+    private Integer distance;
     private String description;
 
-    private double distance;
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -47,20 +48,28 @@ public class Workout {
         this.workoutType = workoutType;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public LocalTime getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(LocalTime duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
     }
 
     public String getDescription() {
@@ -69,13 +78,5 @@ public class Workout {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
     }
 }
