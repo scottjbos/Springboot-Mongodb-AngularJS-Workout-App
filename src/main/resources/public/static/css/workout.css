@@ -35,3 +35,7 @@ button.close-modal-button {
     padding-top: 5px;
 }
 
+.workout-history-table-col-1 {
+    width: 25%;
+}
+

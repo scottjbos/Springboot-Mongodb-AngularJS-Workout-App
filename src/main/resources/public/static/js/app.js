@@ -1,4 +1,4 @@
-var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
+var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap', 'daterangepicker']);
 
 (function() {
     workoutApp.config(['$routeProvider', '$locationProvider',
@@ -195,16 +195,67 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
         }
     ]);
 
-    workoutApp.controller('WorkoutHistoryController', ['$scope', 'WorkoutFactory', 'workouts',
-        function($scope, WorkoutFactory, workouts) {
+    workoutApp.controller('WorkoutHistoryController', ['$scope', '$filter', 'WorkoutFactory', 'workouts',
+        function($scope, $filter, WorkoutFactory, workouts) {
             "use strict";
             $scope.workouts = workouts;
+            $scope.filteredWorkouts = angular.copy(workouts);
+
             $scope.viewByOptions = [{'display': 'Date', 'selected': true}, {'display': 'Workout Type', 'selected': false}];
 
             $scope.setViewBy = function(pViewByOption) {
                 angular.forEach($scope.viewByOptions, function(viewByOption) {
                     viewByOption.selected = angular.equals(viewByOption, pViewByOption)
                 })
+            };
+
+            $scope.dateRangeOptions = {
+                ranges: {
+                    'Last 3 Months':  [moment().startOf('month').subtract('months', 2),  moment().endOf('month')],
+                    'Last 6 Months':  [moment().startOf('month').subtract('months', 5),  moment().endOf('month')],
+                    'Last 12 Months': [moment().startOf('month').subtract('months', 11), moment().endOf('month')],
+                    'This Year': [moment().startOf('year'), moment().endOf('year')],
+                    'All' : [moment('01-01-2000', 'MM-DD-YYYY'), moment('12-31-2999', 'MM-DD-YYYY')]
+                },
+                format: 'MM-DD-YYYY',
+                separator: ' to '
+            };
+
+            $scope.filters = {date: {startDate: null, endDate: null} };
+            $scope.defaultFilters = angular.copy($scope.filters);
+            $scope.$watch('filters',
+                function (newFilters, oldFilters) {
+                    if (angular.equals(newFilters, oldFilters)) { return; } //only filter if things actually changed
+
+                    $scope.filteredWorkouts = angular.copy($scope.workouts);
+                    $scope.filteredWorkouts = $filter('WorkoutFilter')($scope.filteredWorkouts, $scope.filters);
+                },
+                true
+            );
+            $scope.clearFilter = function(filterName) {
+                $scope.filters[filterName] = $scope.defaultFilters[filterName];
+            };
+            $scope.isBeingFilteredBy = function(filterName) {
+                return !angular.equals($scope.filters[filterName], $scope.defaultFilters[filterName]);
+            };
+        }
+    ]);
+
+    workoutApp.filter('WorkoutFilter', [
+        function() {
+            return function (workouts, filters) {
+                if (angular.isNotUndefinedOrNullOrEmpty(filters.date.startDate) && angular.isNotUndefinedOrNullOrEmpty(filters.date.endDate)) {
+                    var results = [];
+                    angular.forEach(workouts, function(workout) {
+                        //Subtract 1 day from the start and add 1 day to the end to make the range inclusive the selected date start and end dates
+                        if (moment(workout.date).isAfter(moment(filters.date.startDate).subtract(1, 'day'), 'day') &&
+                            moment(workout.date).isBefore(moment(filters.date.endDate).add(1, 'day'), 'day')) {
+                            this.push(workout);
+                        }
+                    }, results);
+                    return results;
+                }
+                return workouts;
             };
         }
     ]);
