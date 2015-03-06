@@ -16,15 +16,16 @@
                     <li class="list-group-item list-group-item-info">
                         <span class="glyphicon pointer" data-ng-class="{'glyphicon-triangle-bottom':!workCategory.collapseTypes, 'glyphicon-triangle-right':workCategory.collapseTypes}" data-ng-click="workCategory.collapseTypes = !workCategory.collapseTypes"></span>
                         {{workoutCategory.description}}
-                        <span class="glyphicon glyphicon-trash pointer" data-ng-click="deleteWorkoutCategory(workoutCategory)"></span>
+                        <span class="glyphicon glyphicon-trash pointer" data-ng-click="deleteWorkoutCategory(workoutCategory)" data-tooltip="Delete {{workoutCategory.description}} category"></span>
                         <span class="badge">{{workoutCategory.workoutTypes.length}}</span>
                     </li>
                     <div collapse="workCategory.collapseTypes">
                         <li class="list-group-item workout pointer"
                             data-ng-click="openAddWorkoutModal(workoutCategory, workoutType)"
-                            data-ng-repeat="workoutType in workoutCategory.workoutTypes | orderBy: 'description'" data-ng-cloak>
+                            data-ng-repeat="workoutType in workoutCategory.workoutTypes | orderBy: 'description'"
+                            data-tooltip="Add a {{workoutType.description}} workout" data-ng-cloak>
                             <span>{{workoutType.description}}</span>
-                            <span class="glyphicon glyphicon-trash pointer pull-right" data-ng-click="deleteWorkoutType(workoutCategory, workoutType)"></span>
+                            <span class="glyphicon glyphicon-trash pointer pull-right" data-ng-click="deleteWorkoutType(workoutCategory, workoutType)" data-tooltip="Delete {{workoutType.description}} workout type"></span>
                         </li>
                         <li class="list-group-item">
                             <div class="row">

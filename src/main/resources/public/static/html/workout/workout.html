@@ -1,17 +1,26 @@
-<div class="modal-header">
-    <button class="btn btn-default btn-sm pull-right close" data-ng-click="closeWorkoutModal();" aria-hidden="true"> <span class="glyphicon glyphicon-remove-circle"></span></button>
-    <h3 class="modal-title">Add a Workout</h3>
+<div class="row">
+    <button class="btn btn-default btn-sm close close-modal-button" data-ng-click="closeWorkoutModal();" aria-hidden="true"> <span class="glyphicon glyphicon-remove-circle"></span></button>
 </div>
 <div class="modal-body">
     <div class="form-section">
-        <div class="row">
-            <div class="col-sm-12">
+        <section class="row">
+            <div class="col-md-6">
+                <h4>Workout Information</h4>
+                <div class="divider"></div>
+            </div>
+            <div class="col-md-6">
+                <h4>Exercises</h4>
+                <div class="divider"></div>
+            </div>
+        </section>
+        <section class="row">
+            <div class="col-md-6">
                 <div class="form-horizontal">
-                    <div data-select-field data-input-label="Workout Category" data-ng-model="workout.workoutCategory"
+                    <div data-select-field data-input-label="Category" data-ng-model="workout.workoutCategory"
                          data-options="workoutCategories" data-option-label="description"
                          data-null-option-label="-- Workout Category --" data-required="true"></div>
 
-                    <div data-select-field data-input-label="Workout Type" data-ng-model="workout.workoutType"
+                    <div data-select-field data-input-label="Type" data-ng-model="workout.workoutType"
                          data-options="workout.workoutCategory.workoutTypes" data-option-label="description"
                          data-null-option-label="-- Workout Type --" data-required="true"></div>
 
@@ -19,11 +28,36 @@
 
                     <div data-input-field data-input-type="number" data-ng-model="workout.duration" data-input-label="Duration" data-input-min="0"></div>
                     <div data-input-field data-ng-model="workout.distance" data-input-label="Distance"></div>
-
-                    <div data-textarea-field data-input-label="Description" data-ng-model="workout.description"></div>
                 </div>
             </div>
-        </div>
+            <div class="col-md-6">
+                <div data-ng-show="workout.strengthExercises.length == 0" class="alert alert-info" role="alert">No Strength Exercises to display</div>
+                <div class="form-horizontal" data-ng-repeat="strengthExercise in workout.strengthExercises">
+                    <div class="form-group">
+                        <div data-input-field data-ng-model="strengthExercise.exercise" data-input-label="Exercise" data-label-class="'col-md-2 col-sm-2'"
+                             data-input-container-class="'col-md-6 col-sm-6'" data-inline="true" data-input-size-class="'input-sm'"></div>
+                        <div data-checkbox-field data-ng-model="strengthExercise.maxOut" data-input-label="Maxout" data-inline="true"></div>
+                    </div>
+                    <div class="form-group">
+                        <div data-input-field data-ng-model="strengthExercise.reps" data-input-label="Reps" data-label-class="'col-md-2 col-sm-2'"
+                             data-input-container-class="'col-md-4 col-sm-4'" data-inline="true" data-input-size-class="'input-sm'"></div>
+                        <div data-input-field data-ng-hide="strengthExercise.maxOut" data-ng-model="strengthExercise.sets" data-input-label="Sets"
+                             data-label-class="'col-md-2 col-sm-2'" data-input-container-class="'col-md-4 col-sm-4'" data-inline="true" data-input-size-class="'input-sm'"></div>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-offset-7 col-sm-4 margin-bottom">
+                        <button class="btn btn-default" data-ng-click="addExercise()"><span class="glyphicon glyphicon-plus pointer"></span> Exercise</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-horizontal">
+                    <div data-textarea-field data-input-label="Description" data-ng-model="workout.description" data-label-class="'col-sm-4 col-md-2'" data-input-container-class="'col-sm-8 col-md-10'"></div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
 <div class="modal-footer">

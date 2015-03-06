@@ -120,6 +120,7 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
                 $modal.open({
                     templateUrl: '/workout/static/html/workout/workout.html',
                     controller: 'WorkoutController',
+                    size: 'lg',
                     resolve: {
                         workoutCategories:['WorkoutCategoryFactory', function(WorkoutCategoryFactory) {
                             return WorkoutCategoryFactory.retrieveWorkoutCategories();
@@ -167,8 +168,15 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
             $scope.workout.workoutCategory = $filter('findByDescription')($scope.workoutCategories, workoutCategory);
             $scope.workout.workoutType = $filter('findByDescription')($scope.workout.workoutCategory.workoutTypes, workoutType);
 
+            $scope.strengthExercise = {"exercise": "", "reps": "", "sets": "", "maxOut": false};
+
+            $scope.workout.strengthExercises = [];
+            $scope.addExercise = function() {
+                $scope.workout.strengthExercises.push(angular.copy($scope.strengthExercise));
+            };
             $scope.addWorkout = function(workout) {
-                var submitWorkout = angular.copy(workout);
+                console.log(workout);
+                /*var submitWorkout = angular.copy(workout);
                 submitWorkout.workoutCategory = {id: workout.workoutCategory.id, description: workout.workoutCategory.description};
                 submitWorkout.workoutType = {id: workout.workoutType.id, description: workout.workoutType.description};
                 WorkoutFactory.addWorkout(submitWorkout)
@@ -178,8 +186,7 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap']);
                      })
                     .fail(function(response) {
                         $scope.errors = response.data;
-                    });
-
+                    });*/
             };
 
             $scope.closeWorkoutModal = function() {

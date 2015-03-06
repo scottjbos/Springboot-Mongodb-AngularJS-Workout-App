@@ -1,13 +1,17 @@
     workoutApp.directive("inputField", function () {
         return {
-            template: '<div class="form-group" data-ng-if="ngModel !== undefined" data-ng-class="{\'required-container\' : $parent.required, \'has-error has-feedback\' : $parent.messages.length >= 1}">' +
+            template: '<div data-ng-if="ngModel !== undefined" data-ng-class="{\'required-container\' : $parent.required, \'has-error has-feedback\' : $parent.messages.length >= 1, \'form-group\' : !$parent.inline}">' +
             '	<label for="{{$parent.id}}" class="control-label" data-ng-class="$parent.labelClass">{{$parent.inputLabel}}</label>' +
             '	<div data-ng-class="$parent.inputContainerClass" ng-switch on="$parent.inputMask">' +
-            '		<input ng-switch-when="date" maxlength="10" class="date-mask form-control" placeholder="MM-DD-YYYY" id="{{$parent.$parent.id}}" data-ng-model="$parent.$parent.ngModel" type="{{$parent.$parent.inputType}}" data-ng-reguired="$parent.$parent.required" data-ng-disabled="$parent.$parent.disabled" data-ng-enter="$parent.$parent.enter();" data-ng-change="$parent.$parent.ngChange()" data-ng-model-options="{\'updateOn\': $parent.$parent.ngModelOptionOnBlur, \'debounce\': $parent.$parent.ngModelOptionDebounce}">' +
-            '		<input ng-switch-default class="form-control" id="{{$parent.$parent.id}}" data-ng-class="{\'loading\':$parent.$parent.isLoading}" ' +
+            '		<input ng-switch-when="date" maxlength="10" class="date-mask form-control" placeholder="MM-DD-YYYY" id="{{$parent.$parent.id}}" ' +
+            '           data-ng-model="$parent.$parent.ngModel" type="{{$parent.$parent.inputType}}" data-ng-reguired="$parent.$parent.required" ' +
+            '           data-ng-disabled="$parent.$parent.disabled" data-ng-enter="$parent.$parent.enter();" data-ng-change="$parent.$parent.ngChange()" ' +
+            '           data-ng-model-options="{\'updateOn\': $parent.$parent.ngModelOptionOnBlur, \'debounce\': $parent.$parent.ngModelOptionDebounce}">' +
+            '		<input ng-switch-default class="form-control {{$parent.$parent.inputSizeClass}}" id="{{$parent.$parent.id}}" data-ng-class="{\'loading\':$parent.$parent.isLoading}" ' +
             '           data-ng-model="$parent.$parent.ngModel" type="{{$parent.$parent.inputType}}" data-ng-reguired="$parent.$parent.required" ' +
             '           data-ng-disabled="$parent.$parent.disabled" maxlength="{{$parent.$parent.inputMaxlength}}" max="{{$parent.$parent.inputMax}}" ' +
-            '           min="{{$parent.$parent.inputMin}}" data-ng-enter="$parent.$parent.enter();"  data-ng-change="$parent.$parent.ngChange()" data-ng-model-options="{\'updateOn\': $parent.$parent.ngModelOptionOnBlur, \'debounce\': $parent.$parent.ngModelOptionDebounce}" data-focus-me="$parent.$parent.focusWhen" >' +
+            '           min="{{$parent.$parent.inputMin}}" data-ng-enter="$parent.$parent.enter();"  data-ng-change="$parent.$parent.ngChange()" ' +
+            '           data-ng-model-options="{\'updateOn\': $parent.$parent.ngModelOptionOnBlur, \'debounce\': $parent.$parent.ngModelOptionDebounce}" data-focus-me="$parent.$parent.focusWhen" >' +
             '		<span class="glyphicon form-control-feedback" data-ng-class="{\'glyphicon-remove\' : $parent.messages.length >= 1}" aria-hidden="true"></span>' +
             '		<div ng-show="$parent.messages.length >= 1" class="alert alert-danger margin-top remove-margin-bottom"><p data-ng-repeat="message in $parent.messages">{{message}}</p></div>' +
             '	</div>' +
@@ -21,11 +25,13 @@
                 inputType: "@?", //Optional: 'string'
                 inputMaxlength: "=?", //Optional: 'string'
                 inputMin: "=?", //Optional: 'string'
-                inputMax: "=?", //Optional: 'string'
+                inputMax: "=?", //Optional: 'string',
+                inputSizeClass: '=?', //Optional 'string'
                 labelClass: "=?", //Optional: 'string'
                 inputContainerClass: "=?", //Optional: 'string'
                 required: "=?", //Optional Bool
-                disabled: "=?", //Optional Bool
+                disabled: "=?", //Optional Bool,
+                inline: "=?", //Optional Bool
                 inputMask: "@",
                 messages: "=?", //Optional array of messages
                 onEnter: '&?', //Optional on enter function
@@ -115,6 +121,43 @@
                 $scope.labelClass = $scope.labelClass || 'col-sm-4'; //4 col default
                 $scope.optionId = $scope.optionId || 'id'; //tracking the collection by the id property
                 $scope.inputContainerClass = $scope.inputContainerClass || 'col-sm-8'; //8 col default
+            }
+        }
+    }).directive("checkboxField", function () {
+        return {
+            template: '<div data-ng-if="ngModel !== undefined" data-ng-class="{\'required-container\' : $parent.required, \'has-error has-feedback\' : $parent.messages.length >= 1, \'form-group\' : !$parent.inline}">' +
+            '	<div data-ng-class="$parent.inputContainerClass">' +
+            '		<input id="{{$parent.id}}" data-ng-class="{\'loading\':$parent.isLoading}" ' +
+            '           data-ng-model="$parent.ngModel" type="checkbox" data-ng-reguired="$parent.required" ' +
+            '           data-ng-disabled="$parent.disabled" maxlength="{{$parent.inputMaxlength}}" data-ng-change="$parent.ngChange()" ' +
+            '           data-focus-me="$parent.focusWhen" >' +
+            '	    <label for="{{$parent.id}}" class="control-label" data-ng-class="$parent.labelClass">{{$parent.inputLabel}}</label>' +
+            '		<span class="glyphicon form-control-feedback" data-ng-class="{\'glyphicon-remove\' : $parent.messages.length >= 1}" aria-hidden="true"></span>' +
+            '		<div ng-show="$parent.messages.length >= 1" class="alert alert-danger margin-top remove-margin-bottom"><p data-ng-repeat="message in $parent.messages">{{message}}</p></div>' +
+            '	</div>' +
+            '</div>',
+            restrict: "A",
+            replace: true,
+            scope: {
+                ngModel: "=", //Required - Two Way
+                options: "=", //Object
+                optionId: "@",
+                optionLabel: "@",
+                nullOptionLabel: "@", //Optional
+                inputLabel: "@", //Optional
+                inline: "=?", //Optional Bool
+                id: "=?", //Optional: 'string'
+                inputType: "@", //Optional
+                labelClass: "=?", //Optional String
+                inputContainerClass: "=?", //Optional String
+                required: "=?",
+                disabled: "=?",
+                messages: "=?"
+            },
+            link: function ($scope) {
+                $scope.id = $scope.id || "input-" + Math.floor((Math.random() * 300000) + 1);
+                $scope.optionId = $scope.optionId || 'id'; //tracking the collection by the id property
+                $scope.inputContainerClass = $scope.inputContainerClass || 'col-sm-3 col-md-3'; //8 col default
             }
         }
     })

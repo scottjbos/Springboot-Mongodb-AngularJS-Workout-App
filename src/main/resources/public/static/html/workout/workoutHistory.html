@@ -6,22 +6,23 @@
             data-ng-click="setViewBy(viewByOption)" data-ng-cloak>{{viewByOption.display}}</button>
     </div>
 </div>
-<table class="table">
+<table class="table table-hover table-bordered table-striped">
     <thead>
     <tr>
-        <th>#</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Username</th>
+        <th>Date</th>
+        <th>Workout Category</th>
+        <th>Workout Type</th>
+        <th>Duration</th>
+        <th>Distance</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <th>1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+    <tr data-ng-repeat="workout in workouts | orderBy:'date'" data-ng-cloak>
+        <td>{{workout.date | date:'MM-dd-yyyy'}}</td>
+        <td>{{workout.workoutCategory.description}}</td>
+        <td>{{workout.workoutType.description}}</td>
+        <td>{{workout.duration}} minutes</td>
+        <td>{{workout.distance}} miles</td>
     </tr>
     </tbody>
 </table>
-<div data-ng-repeat="workout in workouts | orderBy:'date'">{{workout.date | date:'MM-dd-yyyy'}} - {{workout.workoutCategory.description}} - {{workout.workoutType.description}}</div>
