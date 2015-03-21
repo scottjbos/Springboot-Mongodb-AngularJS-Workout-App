@@ -96,11 +96,12 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap', 'dater
                 var submitWorkoutCategory = angular.copy(workoutCategory);
                 delete submitWorkoutCategory.newWorkoutType;
                 delete submitWorkoutCategory.collapseTypes;
-                WorkoutCategoryFactory.updateWorkoutTypeToCategory(submitWorkoutCategory).then(function(response) {
-                    var workoutCategory = response.data;
-                    workoutCategory.newWorkoutType = {"description": ""};
-                    $scope.workoutCategories[$filter('findIndexById')($scope.workoutCategories, workoutCategory.id)] = workoutCategory;
-                });
+                WorkoutCategoryFactory.updateWorkoutTypeToCategory(submitWorkoutCategory).then(
+                    function(response) {
+                        var workoutCategory = response.data;
+                        workoutCategory.newWorkoutType = {"description": ""};
+                        $scope.workoutCategories[$filter('findIndexById')($scope.workoutCategories, workoutCategory.id)] = workoutCategory;
+                    });
             };
             $scope.deleteWorkoutType = function(workoutCategory, workoutType) {
                 var workoutCategoryId = $filter('findIndexById')($scope.workoutCategories, workoutCategory.id);
@@ -110,9 +111,10 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap', 'dater
                 delete submitWorkoutCategory.newWorkoutType;
                 delete submitWorkoutCategory.collapseTypes;
                 submitWorkoutCategory.workoutTypes.splice(workoutTypeId, 1);
-                WorkoutCategoryFactory.updateWorkoutTypeToCategory(submitWorkoutCategory).then(function(response) {
-                    $scope.workoutCategories[workoutCategoryId].workoutTypes.splice(workoutTypeId, 1);
-                });
+                WorkoutCategoryFactory.updateWorkoutTypeToCategory(submitWorkoutCategory).then(
+                    function(response) {
+                        $scope.workoutCategories[workoutCategoryId].workoutTypes.splice(workoutTypeId, 1);
+                    });
             };
 
             //Add work out modal
@@ -175,8 +177,7 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap', 'dater
                 $scope.workout.strengthExercises.push(angular.copy($scope.strengthExercise));
             };
             $scope.addWorkout = function(workout) {
-                console.log(workout);
-                /*var submitWorkout = angular.copy(workout);
+                var submitWorkout = angular.copy(workout);
                 submitWorkout.workoutCategory = {id: workout.workoutCategory.id, description: workout.workoutCategory.description};
                 submitWorkout.workoutType = {id: workout.workoutType.id, description: workout.workoutType.description};
                 WorkoutFactory.addWorkout(submitWorkout)
@@ -184,9 +185,9 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap', 'dater
                         $modalInstance.close(response);
                         $scope.workout = {"date": new Date(), "description": "", "duration": "", "distance": ""};
                      })
-                    .fail(function(response) {
+                    .error(function(response) {
                         $scope.errors = response.data;
-                    });*/
+                    });
             };
 
             $scope.closeWorkoutModal = function() {

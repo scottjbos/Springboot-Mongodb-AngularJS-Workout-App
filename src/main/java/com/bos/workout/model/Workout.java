@@ -4,7 +4,9 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Model representing a work out.
@@ -23,6 +25,8 @@ public class Workout {
     private String duration;
     private Integer distance;
     private String description;
+
+    private List<StrengthExercise> strengthExercises = new ArrayList<StrengthExercise>();
 
     public String getId() {
         return id;
@@ -78,5 +82,13 @@ public class Workout {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<StrengthExercise> getStrengthExercises() {
+        return strengthExercises;
+    }
+
+    public void setStrengthExercises(List<StrengthExercise> strengthExercises) {
+        this.strengthExercises = strengthExercises;
     }
 }

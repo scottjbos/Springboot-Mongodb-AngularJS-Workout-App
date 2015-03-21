@@ -31,12 +31,12 @@
             <td></td>
             <td></td>
         </tr>
-        <tr data-ng-repeat="workout in filteredWorkouts | orderBy:'date'" data-ng-cloak>
+        <tr data-ng-repeat="workout in filteredWorkouts | orderBy:'-date'" data-ng-cloak>
             <td>{{workout.date | date:'MM-dd-yyyy'}}</td>
             <td>{{workout.workoutCategory.description}}</td>
             <td>{{workout.workoutType.description}}</td>
-            <td>{{workout.duration}} minutes</td>
-            <td>{{workout.distance}} miles</td>
+            <td>{{workout.duration}} <span data-ng-show="workout.duration">minutes</span></td>
+            <td>{{workout.distance}} <span data-ng-show="workout.distance">miles</span></td>
         </tr>
     </tbody>
 </table>

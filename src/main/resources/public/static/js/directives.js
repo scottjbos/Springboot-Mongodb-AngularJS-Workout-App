@@ -124,14 +124,21 @@
             }
         }
     }).directive("checkboxField", function () {
+            /*<div class="checkbox">
+                <label>
+                    <input type="checkbox"> Check me out
+                </label>
+            </div>*/
         return {
             template: '<div data-ng-if="ngModel !== undefined" data-ng-class="{\'required-container\' : $parent.required, \'has-error has-feedback\' : $parent.messages.length >= 1, \'form-group\' : !$parent.inline}">' +
-            '	<div data-ng-class="$parent.inputContainerClass">' +
-            '		<input id="{{$parent.id}}" data-ng-class="{\'loading\':$parent.isLoading}" ' +
-            '           data-ng-model="$parent.ngModel" type="checkbox" data-ng-reguired="$parent.required" ' +
-            '           data-ng-disabled="$parent.disabled" maxlength="{{$parent.inputMaxlength}}" data-ng-change="$parent.ngChange()" ' +
-            '           data-focus-me="$parent.focusWhen" >' +
-            '	    <label for="{{$parent.id}}" class="control-label" data-ng-class="$parent.labelClass">{{$parent.inputLabel}}</label>' +
+            '	<div class="checkbox" data-ng-class="$parent.inputContainerClass">' +
+            '	    <label> ' +
+            '			<input id="{{$parent.id}}" data-ng-class="{\'loading\':$parent.isLoading}" ' +
+            '           	data-ng-model="$parent.ngModel" type="checkbox" data-ng-reguired="$parent.required" ' +
+            '           	data-ng-disabled="$parent.disabled" data-ng-change="$parent.ngChange()" ' +
+            '           	data-focus-me="$parent.focusWhen" />' +
+            '           {{$parent.inputLabel}}' +
+            '      </label> ' +
             '		<span class="glyphicon form-control-feedback" data-ng-class="{\'glyphicon-remove\' : $parent.messages.length >= 1}" aria-hidden="true"></span>' +
             '		<div ng-show="$parent.messages.length >= 1" class="alert alert-danger margin-top remove-margin-bottom"><p data-ng-repeat="message in $parent.messages">{{message}}</p></div>' +
             '	</div>' +
