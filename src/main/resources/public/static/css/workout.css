@@ -39,3 +39,35 @@ button.close-modal-button {
     width: 25%;
 }
 
+/* Helper Classes */
+.secondary {
+    color: #7f8c8d;
+}
+.remove-margin-bottom {
+    margin-bottom: 0;
+}
+.remove-margin-top {
+    margin-top: 0;
+}
+.remove-margin-top-bottom {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.margin-right {
+    margin-right: 10px;
+}
+.margin-left {
+    margin-left: 10px;
+}
+.margin-top {
+    margin-top: 10px;
+}
+.margin-bottom, .form-inline .margin-bottom {
+    margin-bottom: 10px;
+}
+.margin-top-bottom{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+

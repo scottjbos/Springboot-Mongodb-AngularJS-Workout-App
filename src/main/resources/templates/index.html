@@ -17,18 +17,22 @@
 <body>
     <div th:replace="fragments/_banner"></div>
 
-    <div class="container" data-ng-controller="TabsController">
+    <div class="container">
+        <div data-ng-view=""></div>
+    </div>
+    <!--<div class="container" data-ng-controller="TabsController">
         <tabset>
             <tab ng-repeat="tab in tabs" heading="{{tab.label}}" select="navigateToTab(tab.link)" active="tab.active">
                <div data-ng-view=""></div>
             </tab>
         </tabset>
-    </div>
+    </div>-->
 
     <div th:replace="fragments/_footer"></div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-messages.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 

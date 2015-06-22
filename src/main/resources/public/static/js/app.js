@@ -1,4 +1,4 @@
-var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap', 'daterangepicker']);
+var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.bootstrap', 'daterangepicker']);
 
 (function() {
     workoutApp.config(['$routeProvider', '$locationProvider',
@@ -16,6 +16,12 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap', 'dater
             };
 
             $routeProvider.when('/', {
+                templateUrl: '/workout/static/html/login/login.html',
+                controller: 'LoginController'
+            }).when('/new-user', {
+                templateUrl: '/workout/static/html/login/newUser.html',
+                controller: 'NewUserController'
+            }).when('/workoutCategory', {
                 templateUrl: '/workout/static/html/workoutCategory/workoutCategory.html',
                 controller: 'WorkoutCategoryController',
                 resolve: {
@@ -38,6 +44,40 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ui.bootstrap', 'dater
             //Angular will use the HTML5 browser history when available, otherwise revert back to the
             //hashbang method maintaining browser history for non HTML 5 browser
             $locationProvider.html5Mode(true);
+        }
+    ]);
+
+    workoutApp.controller('LoginController', ['$scope', '$location',
+        function($scope) {
+            "use strict";
+            $scope.user = {
+                userName: '',
+                password: ''
+            };
+
+            $scope.login = function() {
+                //TODO Call database and see if password is correct
+                console.log("logging in with user:" + $scope.user.userName + " and password: " + $scope.user.password);
+            };
+        }
+    ]);
+
+    workoutApp.controller('NewUserController', ['$scope', '$location',
+        function($scope) {
+            "use strict";
+            $scope.newUser = {
+                userName: '',
+                password: '',
+                confirmPassword: '',
+                email: '',
+                phone: ''
+            };
+
+            $scope.register = function() {
+                //TODO Call database and see if password is correct
+                console.log("Adding user");
+                console.log($scope.newUser);
+            };
         }
     ]);
 
