@@ -6,8 +6,8 @@
                 <div data-input-field data-input-type="password" data-input-mask="password" data-ng-model="newUser.password" data-input-label="Password" data-required="true"></div>
                 <div data-input-field data-input-type="password" data-input-mask="confirmPassword" data-password-model="newUser.password" data-ng-model="newUser.confirmPassword" data-input-label="Confirm Password" data-required="true"></div>
 
-                <div data-input-field data-ng-model="newUser.email" data-input-label="Email" data-required="true"></div>
-                <div data-input-field data-ng-model="newUser.phone" data-input-label="Phone"></div>
+                <div data-input-field data-ng-model="newUser.email" data-input-label="Email" data-input-type="email" data-required="true"></div>
+                <div data-input-field data-ng-model="newUser.phone" data-input-mask="telephone" data-input-label="Phone"></div>
             </div>
             <div class="pull-right margin-top">
                 <button class="btn btn-primary" data-ng-click="register()">Register</button>

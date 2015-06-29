@@ -1,4 +1,4 @@
-var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.bootstrap', 'daterangepicker']);
+var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.bootstrap', 'ui.mask', 'daterangepicker']);
 
 (function() {
     workoutApp.config(['$routeProvider', '$locationProvider',
