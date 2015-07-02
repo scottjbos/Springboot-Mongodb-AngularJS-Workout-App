@@ -47,26 +47,41 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.boot
         }
     ]);
 
-    workoutApp.controller('LoginController', ['$scope', '$location',
-        function($scope) {
+    workoutApp.controller('LoginController', ['$scope', 'UserFactory',
+        function($scope, UserFactory) {
             "use strict";
             $scope.user = {
                 userName: '',
                 password: ''
             };
+            $scope.usernamePasswordError =  false;
+            $scope.errorMessage = "";
 
             $scope.login = function() {
-                //TODO Call database and see if password is correct
-                console.log("logging in with user:" + $scope.user.userName + " and password: " + $scope.user.password);
+                $scope.usernamePasswordError = false;
+                UserFactory.retrieveUser($scope.user.userName)
+                    .success(function(response) {
+                        if (angular.equals(response.password, $scope.user.password)) {
+                            console.log("Good to go, you can log in");
+                            //TODO create log in page
+                        } else {
+                            $scope.usernamePasswordError = true;
+                            $scope.errorMessage = "Wrong Username or Password.";
+                        }
+                    }).error(function(errorResponse) {
+                        $scope.usernamePasswordError = true;
+                        $scope.errorMessage = "There was an error with the server.";
+                    });
+
             };
         }
-    ]);
-
-    workoutApp.controller('NewUserController', ['$scope', '$location',
-        function($scope) {
+    ]).controller('NewUserController', ['$scope', '$location', 'UserFactory',
+        function($scope, $location, UserFactory) {
             "use strict";
             $scope.newUser = {
                 userName: '',
+                firstName: '',
+                lastName: '',
                 password: '',
                 confirmPassword: '',
                 email: '',
@@ -74,9 +89,34 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.boot
             };
 
             $scope.register = function() {
-                //TODO Call database and see if password is correct
-                console.log("Adding user");
-                console.log($scope.newUser);
+                //Only submit form if valid
+                if ($scope.newUser.userName && $scope.newUser.firstName && $scope.newUser.lastName && $scope.newUser.password && $scope.newUser.confirmPassword && $scope.newUser.email && $scope.newUser.phone) {
+                    UserFactory.addUser($scope.newUser)
+                        .success(function(response) {
+                            $location.path('/');
+                        })
+                        .error(function(errorResponse) {
+                            console.log("error");
+                        });
+                }
+            };
+        }
+    ]).factory('UserFactory', ['$http', '$log', '$q',
+        function($http, $log, $q) {
+            var deferred = $q.defer();
+            return {
+                retrieveUser: function(userName) {
+                    return $http.get("/workout/rest/user/" + userName);
+                },
+                addUser: function(user) {
+                    return $http.post("/workout/rest/user", user);
+                },
+                updateUser: function(user) {
+                    return $http.put("/workout/rest/user/" + user.id, user);
+                },
+                deleteUser: function(user) {
+                    return $http.delete("/workout/rest/user/" + user.id);
+                }
             };
         }
     ]);

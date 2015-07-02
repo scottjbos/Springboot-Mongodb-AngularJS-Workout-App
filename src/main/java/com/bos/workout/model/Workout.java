@@ -1,7 +1,5 @@
 package com.bos.workout.model;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;

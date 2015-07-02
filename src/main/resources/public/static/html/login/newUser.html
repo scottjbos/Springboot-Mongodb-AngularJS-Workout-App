@@ -2,15 +2,17 @@
     <section class="row">
         <div class="col-md-offset-3 col-md-6 col-sm-12">
             <div class="form-horizontal">
-                <div data-input-field data-ng-model="newUser.userName" data-input-label="Username" data-required="true"></div>
-                <div data-input-field data-input-type="password" data-input-mask="password" data-ng-model="newUser.password" data-input-label="Password" data-required="true"></div>
-                <div data-input-field data-input-type="password" data-input-mask="confirmPassword" data-password-model="newUser.password" data-ng-model="newUser.confirmPassword" data-input-label="Confirm Password" data-required="true"></div>
+                <div data-input-field data-ng-model="newUser.userName" data-input-label="Username" data-required="true" data-on-enter="register()"></div>
+                <div data-input-field data-ng-model="newUser.firstName" data-input-label="First Name" data-required="true" data-on-enter="register()"></div>
+                <div data-input-field data-ng-model="newUser.lastName" data-input-label="Last Name" data-required="true" data-on-enter="register()"></div>
+                <div data-input-field data-input-type="password" data-input-mask="password" data-ng-model="newUser.password" data-input-label="Password" data-required="true" data-on-enter="register()"></div>
+                <div data-input-field data-input-type="password" data-input-mask="confirmPassword" data-password-model="newUser.password" data-ng-model="newUser.confirmPassword" data-input-label="Confirm Password" data-required="true" data-on-enter="register()"></div>
 
-                <div data-input-field data-ng-model="newUser.email" data-input-label="Email" data-input-type="email" data-required="true"></div>
-                <div data-input-field data-ng-model="newUser.phone" data-input-mask="telephone" data-input-label="Phone"></div>
+                <div data-input-field data-ng-model="newUser.email" data-input-label="Email" data-input-type="email" data-required="true" data-on-enter="register()"></div>
+                <div data-input-field data-ng-model="newUser.phone" data-input-mask="telephone" data-input-label="Phone" data-on-enter="register()"></div>
             </div>
             <div class="pull-right margin-top">
-                <button class="btn btn-primary" data-ng-click="register()">Register</button>
+                <button class="btn btn-primary" data-ng-disabled="!newUser.userName || !newUser.firstName || !newUser.lastName || !newUser.password || !newUser.confirmPassword || !newUser.email || !newUser.phone" data-ng-click="register()">Register</button>
             </div>
         </div>
     </section>

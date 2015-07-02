@@ -73,7 +73,9 @@
                 $scope.labelClass = $scope.labelClass || 'col-sm-4'; //4 col default
                 $scope.inputContainerClass = $scope.inputContainerClass || 'col-sm-8'; //8 col default
                 $scope.enter = function () {
-                    $scope.onEnter();
+                    if (angular.isFunction($scope.onEnter)) {
+                        $scope.onEnter();
+                    }
                 };
                 $scope.showFeedBack = angular.equals($scope.inputType, 'email') || angular.equals($scope.inputMask, 'password') || angular.equals($scope.inputMask, 'confirmPassword') || angular.equals($scope.inputMask, 'telephone')
             }
@@ -205,4 +207,20 @@
                     });
                 }
             };
-    });
+    })
+    .directive('ngEnter', [
+        function () {
+            return {
+                controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+                    $element.bind("keydown keypress", function (event) {
+                        if (event.which === 13) {
+                            $scope.$apply(function () {
+                                $scope.$eval($attrs.ngEnter, {'event': event});
+                            });
+                            event.preventDefault();
+                        }
+                    });
+                }]
+            }
+        }
+    ]);
