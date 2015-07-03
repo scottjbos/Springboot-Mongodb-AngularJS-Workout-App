@@ -1,25 +1,29 @@
 <div class="form-section">
     <section class="row">
         <div class="col-md-offset-3 col-md-6">
-            <div class="form-horizontal">
-                <div data-input-field data-ng-model="user.userName" data-input-label="Username" data-on-enter="login()"></div>
-                <div data-input-field data-input-type="password" data-ng-model="user.password" data-input-label="Password" data-on-enter="login()"></div>
-            </div>
-            <div class="row" data-ng-show="usernamePasswordError">
-                <div class="alert alert-danger" data-ng-cloak>{{errorMessage}}</div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 margin-top">
-                    <div class="pull-right">
-                        <button class="btn btn-primary" data-ng-click="login()">Login</button>
+            <form name="loginForm" data-ng-submit="login()">
+                <div class="form-horizontal">
+                    <div data-input-field data-ng-model="user.userName" data-input-label="Username" data-required="true"></div>
+                    <div data-input-field data-input-type="password" data-ng-model="user.password" data-input-label="Password" data-required="true"></div>
+                </div>
+                <div class="row" data-ng-show="usernamePasswordError">
+                    <div class="col-md-8 col-md-offset-4">
+                        <div class="alert alert-danger" data-ng-cloak>{{errorMessage}}</div>
                     </div>
                 </div>
-                <div class="col-sm-12 margin-top">
-                    <div class="pull-right">
-                        <a href="new-user" >Need an account?</a> |  <a href="javascript:void(0)" >Forget your password?</a>
+                <div class="row">
+                    <div class="col-sm-12 margin-top">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-primary" data-ng-disabled="loginForm.$invalid || loginForm.$pristine">Login</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 margin-top">
+                        <div class="pull-right">
+                            <a href="new-user" >Need an account?</a> |  <a href="javascript:void(0)" >Forget your password?</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form> <!--End of Form-->
         </div>
     </section>
 </div>

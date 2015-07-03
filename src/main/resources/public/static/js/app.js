@@ -1,4 +1,4 @@
-var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.bootstrap', 'ui.mask', 'daterangepicker']);
+var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ngCookies', 'ui.bootstrap', 'ui.mask', 'daterangepicker']);
 
 (function() {
     workoutApp.config(['$routeProvider', '$locationProvider',
@@ -21,6 +21,9 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.boot
             }).when('/new-user', {
                 templateUrl: '/workout/static/html/login/newUser.html',
                 controller: 'NewUserController'
+            }).when('/home', {
+                templateUrl: '/workout/static/html/home/home.html',
+                controller: 'HomeController'
             }).when('/workoutCategory', {
                 templateUrl: '/workout/static/html/workoutCategory/workoutCategory.html',
                 controller: 'WorkoutCategoryController',
@@ -47,8 +50,8 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.boot
         }
     ]);
 
-    workoutApp.controller('LoginController', ['$scope', 'UserFactory',
-        function($scope, UserFactory) {
+    workoutApp.controller('LoginController', ['$scope', '$cookies', '$location', 'UserFactory',
+        function($scope, $cookies, $location, UserFactory) {
             "use strict";
             $scope.user = {
                 userName: '',
@@ -62,8 +65,15 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.boot
                 UserFactory.retrieveUser($scope.user.userName)
                     .success(function(response) {
                         if (angular.equals(response.password, $scope.user.password)) {
-                            console.log("Good to go, you can log in");
-                            //TODO create log in page
+                            //Put the user information in a cookie that expires tomorrow
+                            //var cookieOptions = {expires : new moment().add(1, "day").toDate(), domain: "workout.com"};
+                            //var cookieOptions = {domain: "workout.com"};
+                            $cookies.remove("workoutUser");
+                            $cookies.putObject("workoutUser", response);
+
+                            $cookies.remove("workoutUserName");
+                            $cookies.put("workoutUserLogin", response.userName);
+                            $location.path('/home');
                         } else {
                             $scope.usernamePasswordError = true;
                             $scope.errorMessage = "Wrong Username or Password.";
@@ -72,7 +82,6 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.boot
                         $scope.usernamePasswordError = true;
                         $scope.errorMessage = "There was an error with the server.";
                     });
-
             };
         }
     ]).controller('NewUserController', ['$scope', '$location', 'UserFactory',
@@ -89,16 +98,13 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.boot
             };
 
             $scope.register = function() {
-                //Only submit form if valid
-                if ($scope.newUser.userName && $scope.newUser.firstName && $scope.newUser.lastName && $scope.newUser.password && $scope.newUser.confirmPassword && $scope.newUser.email && $scope.newUser.phone) {
-                    UserFactory.addUser($scope.newUser)
-                        .success(function(response) {
-                            $location.path('/');
-                        })
-                        .error(function(errorResponse) {
-                            console.log("error");
-                        });
-                }
+                UserFactory.addUser($scope.newUser)
+                    .success(function(response) {
+                        $location.path('/');
+                    })
+                    .error(function(errorResponse) {
+                        console.log("error");
+                    });
             };
         }
     ]).factory('UserFactory', ['$http', '$log', '$q',
@@ -118,6 +124,22 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ui.boot
                     return $http.delete("/workout/rest/user/" + user.id);
                 }
             };
+        }
+    ]);
+
+    workoutApp.controller('HomeController', ['$scope', '$location', '$cookies', '$log', 'UserFactory',
+        function($scope, $location, $cookies, $log, UserFactory) {
+            "use strict";
+            //var cookieOptions = {domain: "workout.com"};
+            $scope.user = $cookies.getObject("workoutUser");
+            $scope.userName = $cookies.get("workoutUserLogin");
+
+            /*UserFactory.retrieveUser(userName)
+                .success(function(response) {
+                    $scope.user = response;
+                }).error(function(msg, code) {
+                    $log.error("Couldn't get the user information", code);
+                });*/
         }
     ]);
 

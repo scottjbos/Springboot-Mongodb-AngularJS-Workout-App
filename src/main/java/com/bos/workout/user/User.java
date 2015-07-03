@@ -9,7 +9,7 @@ public class User {
 
     @Id
     private String id;
-
+    //Unique constraint - db.user.ensureIndex({userName:1},{unique:true});
     private String userName;
     private String firstName;
     private String lastName;

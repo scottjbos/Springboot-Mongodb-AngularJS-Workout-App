@@ -1,53 +1,57 @@
     workoutApp.directive("inputField", function () {
         return {
-            template: '<div ng-form name="inputform">' +
-            '   <div data-ng-class="{\'required-container\' : required, \'has-error has-feedback\' : messages.length >= 1 || inputform.inputname.$error.compareTo || inputform.inputname.$error.email || inputform.inputname.$error.mask, \'form-group\' : !inline,  \'has-success has-feedback\': showFeedBack && inputform.inputname.$valid && inputform.inputname.$dirty && ngModel !== \'\'}">' +
+            template:'<div ng-form name="inputform"' +
+            '   <div data-ng-class="{\'required-container\' : required, \'has-error has-feedback\' : messages.length >= 1 || (inputform.inputname.$invalid && inputform.inputname.$dirty), \'form-group\' : !inline,  \'has-success has-feedback\': showFeedBack && inputform.inputname.$valid && inputform.inputname.$dirty && ngModel !== \'\'}">' +
             '	    <label for="{{id}}" class="control-label" data-ng-class="labelClass">{{inputLabel}}</label>' +
             '	    <div data-ng-class="inputContainerClass" ng-switch on="inputMask">' +
             '		    <input ng-switch-when="date" maxlength="10" class="date-mask form-control" placeholder="MM-DD-YYYY" id="{{$parent.id}}" name="inputname" ' +
             '               data-ng-model="$parent.ngModel" type="{{$parent.inputType}}" data-ng-reguired="$parent.required" ' +
-            '               data-ng-disabled="$parent.disabled" data-ng-enter="$parent.enter();" data-ng-change="$parent.ngChange()" ' +
+            '               data-ng-disabled="$parent.disabled" data-ng-change="$parent.ngChange()" ng-minlength="$parent.inputMin" ' +
             '               data-ng-model-options="{\'updateOn\': $parent.ngModelOptionOnBlur, \'debounce\': $parent.ngModelOptionDebounce}">' +
 
             '		    <input ng-switch-when="password" class="form-control" id="{{$parent.id}}"  name="inputname" ' +
             '               data-ng-model="$parent.ngModel" type="password" data-ng-reguired="$parent.required" ' +
-            '               data-ng-disabled="$parent.disabled" data-ng-enter="$parent.enter();" data-ng-change="$parent.ngChange()" ' +
+            '               data-ng-disabled="$parent.disabled" data-ng-change="$parent.ngChange()" ng-minlength="$parent.inputMin" ' +
             '               data-ng-model-options="{\'updateOn\': $parent.ngModelOptionOnBlur, \'debounce\': $parent.ngModelOptionDebounce}">' +
 
             '		    <input ng-switch-when="confirmPassword" class="form-control" id="{{$parent.id}}" name="inputname" ' +
             '               data-ng-model="$parent.ngModel" type="password" data-ng-reguired="$parent.required" data-compare-to="$parent.passwordModel"' +
-            '               data-ng-disabled="$parent.disabled" data-ng-enter="$parent.enter();" data-ng-change="$parent.ngChange()" ' +
+            '               data-ng-disabled="$parent.disabled" data-ng-change="$parent.ngChange()" ng-minlength="$parent.inputMin" ' +
             '               data-ng-model-options="{\'updateOn\': $parent.ngModelOptionOnBlur, \'debounce\': $parent.ngModelOptionDebounce}">' +
 
             '		    <input ng-switch-when="telephone" class="form-control" id="{{$parent.id}}" name="inputname" placeholder="(999) 999-9999" ui-mask="(999) 999-9999" ' +
             '               data-ng-model="$parent.ngModel" type="text" data-ng-reguired="$parent.required"' +
-            '               data-ng-disabled="$parent.disabled" data-ng-enter="$parent.enter();" data-ng-change="$parent.ngChange()" ' +
+            '               data-ng-disabled="$parent.disabled" data-ng-change="$parent.ngChange()" ng-minlength="$parent.inputMin" ' +
             '               data-ng-model-options="{\'updateOn\': $parent.ngModelOptionOnBlur, \'debounce\': $parent.ngModelOptionDebounce}">' +
 
             '		    <input ng-switch-default class="form-control {{$parent.inputSizeClass}}" id="{{$parent.id}}" name="inputname" data-ng-class="{\'loading\':$parent.isLoading}" ' +
             '               data-ng-model="$parent.ngModel" type="{{$parent.inputType}}" data-ng-reguired="$parent.required" ' +
-            '               data-ng-disabled="$parent.disabled" maxlength="{{$parent.inputMaxlength}}" max="{{$parent.inputMax}}" ' +
-            '               min="{{$parent.inputMin}}" data-ng-enter="$parent.enter();"  data-ng-change="$parent.ngChange()" ' +
+            '               data-ng-disabled="$parent.disabled" maxlength="{{$parent.inputMax}}" ' +
+            '               ng-minlength="$parent.inputMin" data-ng-change="$parent.ngChange()" ' +
             '               data-ng-model-options="{\'updateOn\': $parent.ngModelOptionOnBlur, \'debounce\': $parent.ngModelOptionDebounce}">' +
             '			<span class="form-control-feedback" aria-hidden="true" data-ng-show="showFeedBack">' +
             '				<i class="glyphicon" data-ng-class="{\'glyphicon-remove\' : inputform.inputname.$error.compareTo || inputform.inputname.$error.email || inputform.inputname.$error.mask, \'glyphicon-ok\': inputform.inputname.$valid && inputform.inputname.$dirty && ngModel !== \'\'}"></i>' +
             '			</span>' +
             '		    <div ng-show="messages.length >= 1" class="alert alert-danger margin-top remove-margin-bottom"><p data-ng-repeat="message in messages">{{message}}</p></div>' +
             '           <div ng-messages="inputform.inputname.$error" class="messages">' +
-            '               <div ng-message="compareTo" class="alert alert-danger">Must match the password.</div>' +
-            '               <div ng-message="email" class="alert alert-danger">Invalid Email.</div>' +
-            '               <div ng-message="mask" class="alert alert-danger">Invalid Phone Number.</div>' +
+            '               <div ng-message="compareTo" class="alert alert-danger margin-top remove-margin-bottom">Must match the password.</div>' +
+            '               <div ng-message="email" class="alert alert-danger margin-top remove-margin-bottom">Invalid Email.</div>' +
+            '               <div ng-message="mask" class="alert alert-danger margin-top remove-margin-bottom">Invalid Phone Number.</div>' +
+            '				<div ng-message="minlength" class="alert alert-danger margin-top remove-margin-bottom">{{$parent.inputLabel}} too short.</div>' +
             '           </div>' +
             '	    </div>' +
             '   </div>' +
             '</div>',
+            require: '^?form', //Optionally require a form directive
             replace: true,
             restrict: "A",
             scope: {
                 ngModel: "=", //Required - Two Way: object.property
                 inputLabel: "@", //Optional: 'string'
                 id: "=?", //Optional: 'string'
+                name: "@?", //Optional: 'string'
                 inputType: "@?", //Optional: 'string'
+                inputName: "@?", //Optional: 'string'
                 inputMaxlength: "=?", //Optional: 'string'
                 inputMin: "=?", //Optional: 'string'
                 inputMax: "=?", //Optional: 'string',
@@ -59,7 +63,6 @@
                 inline: "=?", //Optional Bool
                 inputMask: "@",
                 messages: "=?", //Optional array of messages
-                onEnter: '&?', //Optional on enter function
                 ngChange: "&?", //optional function to run on-change
                 ngModelOptionOnBlur: "=?", //Optional object
                 ngModelOptionDebounce: "=?", //Optional object
@@ -67,17 +70,18 @@
                 focusWhen: "=?", //Optional object that indicates when focus should be set to the input field
                 passwordModel: "=?"
             },
-            link: function ($scope, element, attrs) {
+            link: function ($scope, element, attrs, formController) {
                 $scope.inputType = $scope.inputType || 'text';  //Default input Type to 'text'
-                $scope.id = $scope.name || "input-" + Math.floor((Math.random() * 300000) + 1);
+                $scope.inputName = $scope.inputName || "input-" + Math.floor((Math.random() * 300000) + 1);
+                $scope.errorMessageString = "formname." + $scope.inputName + ".$error";
+                $scope.id = $scope.inputName;
                 $scope.labelClass = $scope.labelClass || 'col-sm-4'; //4 col default
                 $scope.inputContainerClass = $scope.inputContainerClass || 'col-sm-8'; //8 col default
-                $scope.enter = function () {
-                    if (angular.isFunction($scope.onEnter)) {
-                        $scope.onEnter();
-                    }
-                };
-                $scope.showFeedBack = angular.equals($scope.inputType, 'email') || angular.equals($scope.inputMask, 'password') || angular.equals($scope.inputMask, 'confirmPassword') || angular.equals($scope.inputMask, 'telephone')
+                $scope.showFeedBack = angular.equals($scope.inputType, 'email') ||
+                    angular.equals($scope.inputMask, 'password') ||
+                    angular.equals($scope.inputMask, 'confirmPassword') ||
+                    angular.equals($scope.inputMask, 'telephone') ||
+                    angular.isNotUndefinedOrNullOrEmpty($scope.inputMin)
             }
         }
 
@@ -190,7 +194,8 @@
                 $scope.inputContainerClass = $scope.inputContainerClass || 'col-sm-3 col-md-3'; //8 col default
             }
         }
-    }).directive("compareTo", function() {
+    })
+        .directive("compareTo", function() {
             return {
                 require: "ngModel",
                 scope: {
@@ -207,8 +212,7 @@
                     });
                 }
             };
-    })
-    .directive('ngEnter', [
+    }).directive('ngEnter', [
         function () {
             return {
                 controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
