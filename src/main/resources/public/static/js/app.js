@@ -60,28 +60,31 @@ var workoutApp = angular.module('workoutApp', ['ngRoute', 'ngMessages', 'ngCooki
             $scope.usernamePasswordError =  false;
             $scope.errorMessage = "";
 
-            $scope.login = function() {
-                $scope.usernamePasswordError = false;
-                UserFactory.retrieveUser($scope.user.userName)
-                    .success(function(response) {
-                        if (angular.equals(response.password, $scope.user.password)) {
-                            //Put the user information in a cookie that expires tomorrow
-                            //var cookieOptions = {expires : new moment().add(1, "day").toDate(), domain: "workout.com"};
-                            //var cookieOptions = {domain: "workout.com"};
-                            $cookies.remove("workoutUser");
-                            $cookies.putObject("workoutUser", response);
+           $scope.login = function() {
+               $scope.usernamePasswordError = false;
+               console.log($scope.user);
+               if (angular.isUndefinedOrNullOrEmpty($scope.user.userName)) {
+                   UserFactory.retrieveUser($scope.user.userName)
+                       .success(function (response) {
+                           if (angular.equals(response.password, $scope.user.password)) {
+                               //Put the user information in a cookie that expires tomorrow
+                               //var cookieOptions = {expires : new moment().add(1, "day").toDate(), domain: "workout.com"};
+                               //var cookieOptions = {domain: "workout.com"};
+                               $cookies.remove("workoutUser");
+                               $cookies.putObject("workoutUser", response);
 
-                            $cookies.remove("workoutUserName");
-                            $cookies.put("workoutUserLogin", response.userName);
-                            $location.path('/home');
-                        } else {
-                            $scope.usernamePasswordError = true;
-                            $scope.errorMessage = "Wrong Username or Password.";
-                        }
-                    }).error(function(errorResponse) {
-                        $scope.usernamePasswordError = true;
-                        $scope.errorMessage = "There was an error with the server.";
-                    });
+                               $cookies.remove("workoutUserName");
+                               $cookies.put("workoutUserLogin", response.userName);
+                               $location.path('/home');
+                           } else {
+                               $scope.usernamePasswordError = true;
+                               $scope.errorMessage = "Wrong Username or Password.";
+                           }
+                       }).error(function (errorResponse) {
+                           $scope.usernamePasswordError = true;
+                           $scope.errorMessage = "There was an error with the server.";
+                       });
+               }
             };
         }
     ]).controller('NewUserController', ['$scope', '$location', 'UserFactory',

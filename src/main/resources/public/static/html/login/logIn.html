@@ -1,7 +1,7 @@
 <div class="form-section">
     <section class="row">
         <div class="col-md-offset-3 col-md-6">
-            <form name="loginForm" data-ng-submit="login()">
+            <form name="loginForm" data-bos-form data-on-form-submit="login()">
                 <div class="form-horizontal">
                     <div data-input-field data-ng-model="user.userName" data-input-label="Username" data-required="true"></div>
                     <div data-input-field data-input-type="password" data-ng-model="user.password" data-input-label="Password" data-required="true"></div>
@@ -14,12 +14,12 @@
                 <div class="row">
                     <div class="col-sm-12 margin-top">
                         <div class="pull-right">
-                            <button type="submit" class="btn btn-primary" data-ng-disabled="loginForm.$invalid || loginForm.$pristine">Login</button>
+                            <div data-submit-button data-button-text="Login" data-disable-button="loginForm.$invalid || loginForm.$pristine"></div>
                         </div>
                     </div>
                     <div class="col-sm-12 margin-top">
                         <div class="pull-right">
-                            <a href="new-user" >Need an account?</a> |  <a href="javascript:void(0)" >Forget your password?</a>
+                            <a href="new-user">Need an account?</a> | <a href="javascript:void(0)">Forget your password?</a>
                         </div>
                     </div>
                 </div>

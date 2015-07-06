@@ -1,7 +1,7 @@
 <div class="form-section">
     <section class="row">
         <div class="col-md-offset-3 col-md-6 col-sm-12">
-            <form name="newUserForm" data-ng-submit="register()">
+            <form name="newUserForm" data-bos-form data-on-form-submit="register()">
                 <div class="form-horizontal">
                     <div data-input-field data-ng-model="newUser.userName" data-input-label="Username" data-required="true" data-input-min="5"></div>
                     <div data-input-field data-ng-model="newUser.firstName" data-input-label="First Name" data-required="true"></div>
@@ -13,7 +13,7 @@
                     <div data-input-field data-ng-model="newUser.phone" data-input-mask="telephone" data-input-label="Phone"></div>
                 </div>
                 <div class="pull-right margin-top">
-                    <button type="submit" class="btn btn-primary" data-ng-disabled="newUserForm.$invalid || newUserForm.$pristine">Register</button>
+                    <div data-submit-button data-button-text="Register" data-disable-button="newUserForm.$invalid || newUserForm.$pristine"></div>
                 </div>
             </form>
         </div>
